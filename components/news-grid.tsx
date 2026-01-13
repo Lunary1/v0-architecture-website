@@ -113,9 +113,9 @@ export default function NewsGrid() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-sm font-light tracking-widest text-gray-600 mb-4">NIEUWS & PERS</p>
+          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">NIEUWS & PERS</p>
           <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-8">Blijf op de hoogte</h1>
-          <p className="text-lg font-light text-gray-600 max-w-2xl">
+          <p className="text-lg font-light text-muted-foreground max-w-2xl">
             Ontdek het laatste nieuws, persberichten en projectaankondigingen van Studio Architecten
           </p>
         </div>
@@ -128,8 +128,8 @@ export default function NewsGrid() {
               onClick={() => setActiveCategory(category)}
               className={`px-4 py-2 text-sm font-light tracking-wide transition ${
                 activeCategory === category
-                  ? "bg-black text-white"
-                  : "border border-gray-300 text-black hover:border-black"
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-input hover:border-foreground"
               }`}
             >
               {category}
@@ -144,7 +144,7 @@ export default function NewsGrid() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {featuredArticles.map((article) => (
                 <Link key={article.id} href={`/nieuws/${article.id}`} className="group cursor-pointer">
-                  <div className="relative h-96 overflow-hidden bg-gray-100 mb-4">
+                  <div className="relative h-96 overflow-hidden bg-muted mb-4">
                     <img
                       src={article.image || "/placeholder.svg"}
                       alt={article.title}
@@ -153,19 +153,21 @@ export default function NewsGrid() {
                   </div>
                   <div>
                     <div className="flex items-center gap-4 mb-3">
-                      <span className="text-xs font-light tracking-widest text-gray-600">{article.category}</span>
-                      <span className="text-xs font-light text-gray-600">{formatDate(article.date)}</span>
+                      <span className="text-xs font-light tracking-widest text-muted-foreground">
+                        {article.category}
+                      </span>
+                      <span className="text-xs font-light text-muted-foreground">{formatDate(article.date)}</span>
                     </div>
                     <h3 className="text-2xl font-light tracking-tight group-hover:opacity-60 transition mb-2">
                       {article.title}
                     </h3>
-                    <p className="text-sm font-light text-gray-600">{article.excerpt}</p>
+                    <p className="text-sm font-light text-muted-foreground">{article.excerpt}</p>
                   </div>
                 </Link>
               ))}
             </div>
-            <div className="border-t border-b border-gray-200 py-8 mb-16">
-              <p className="text-sm font-light text-gray-600">
+            <div className="border-t border-b border-border py-8 mb-16">
+              <p className="text-sm font-light text-muted-foreground">
                 {filteredNews.length} {filteredNews.length === 1 ? "artikel" : "artikelen"}
               </p>
             </div>
@@ -179,20 +181,22 @@ export default function NewsGrid() {
             <div className="space-y-12">
               {regularArticles.map((article) => (
                 <Link key={article.id} href={`/nieuws/${article.id}`} className="group cursor-pointer block">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pb-8 border-b border-gray-200 hover:opacity-60 transition">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pb-8 border-b border-border hover:opacity-60 transition">
                     <div className="md:col-span-2">
                       <div className="flex items-center gap-4 mb-3">
-                        <span className="text-xs font-light tracking-widest text-gray-600">{article.category}</span>
-                        <span className="text-xs font-light text-gray-600">{formatDate(article.date)}</span>
+                        <span className="text-xs font-light tracking-widest text-muted-foreground">
+                          {article.category}
+                        </span>
+                        <span className="text-xs font-light text-muted-foreground">{formatDate(article.date)}</span>
                       </div>
                       <h3 className="text-2xl font-light tracking-tight mb-3">{article.title}</h3>
-                      <p className="text-base font-light text-gray-700 leading-relaxed mb-4">{article.excerpt}</p>
-                      <div className="flex items-center gap-2 text-sm font-light text-gray-600">
+                      <p className="text-base font-light text-foreground/70 leading-relaxed mb-4">{article.excerpt}</p>
+                      <div className="flex items-center gap-2 text-sm font-light text-muted-foreground">
                         <span>By {article.author}</span>
                         <span>→</span>
                       </div>
                     </div>
-                    <div className="relative h-48 bg-gray-100 overflow-hidden">
+                    <div className="relative h-48 bg-muted overflow-hidden">
                       <img
                         src={article.image || "/placeholder.svg"}
                         alt={article.title}
@@ -209,7 +213,7 @@ export default function NewsGrid() {
         {/* Empty State */}
         {filteredNews.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-lg font-light text-gray-600">Geen nieuws gevonden in deze categorie</p>
+            <p className="text-lg font-light text-muted-foreground">Geen nieuws gevonden in deze categorie</p>
           </div>
         )}
       </div>

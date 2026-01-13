@@ -23,10 +23,10 @@ export default function Hero() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-foreground/40" />
 
       {/* Content */}
-      <div className="relative z-10 text-center text-white max-w-2xl mx-auto px-6">
+      <div className="relative z-10 text-center text-primary-foreground max-w-2xl mx-auto px-6">
         <p className="text-sm font-light tracking-widest mb-4 opacity-80">ARCHITECTUUR</p>
         <h1 className="text-5xl md:text-7xl font-light tracking-tight mb-6 leading-tight">
           Residentieel · Industrieel · Interieur

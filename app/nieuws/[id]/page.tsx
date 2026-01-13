@@ -48,7 +48,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
   if (!article) {
     return (
-      <main className="bg-white text-black">
+      <main className="bg-background text-foreground">
         <Navigation />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
@@ -69,7 +69,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   }
 
   return (
-    <main className="bg-white text-black">
+    <main className="bg-background text-foreground">
       <Navigation />
 
       <article className="pt-32 pb-24 px-6">
@@ -85,29 +85,29 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           {/* Article Header */}
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-xs font-light tracking-widest text-gray-600">{article.category}</span>
-              <span className="text-xs font-light text-gray-600">{formatDate(article.date)}</span>
+              <span className="text-xs font-light tracking-widest text-muted-foreground">{article.category}</span>
+              <span className="text-xs font-light text-muted-foreground">{formatDate(article.date)}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-6">{article.title}</h1>
-            <p className="text-base font-light text-gray-600">By {article.author}</p>
+            <p className="text-base font-light text-muted-foreground">By {article.author}</p>
           </div>
 
           {/* Featured Image */}
-          <div className="relative h-96 md:h-[500px] bg-gray-100 mb-16 overflow-hidden">
+          <div className="relative h-96 md:h-[500px] bg-muted mb-16 overflow-hidden">
             <img src={article.image || "/placeholder.svg"} alt={article.title} className="w-full h-full object-cover" />
           </div>
 
           {/* Article Content */}
           <div className="prose prose-lg max-w-none">
             {article.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="text-lg font-light text-gray-700 leading-relaxed mb-8">
+              <p key={index} className="text-lg font-light text-foreground/70 leading-relaxed mb-8">
                 {paragraph}
               </p>
             ))}
           </div>
 
           {/* Article Footer */}
-          <div className="mt-16 pt-12 border-t border-gray-200">
+          <div className="mt-16 pt-12 border-t border-border">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <Link href="/nieuws" className="text-sm font-light tracking-widest hover:opacity-60 transition">
                 ← Meer nieuws

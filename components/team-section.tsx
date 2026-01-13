@@ -39,17 +39,17 @@ const teamMembers: TeamMember[] = [
 
 export default function TeamSection() {
   return (
-    <section className="py-24 px-6 bg-gray-50">
+    <section className="py-24 px-6 bg-secondary">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
-          <p className="text-sm font-light tracking-widest text-gray-600 mb-4">ONS TEAM</p>
+          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">ONS TEAM</p>
           <h2 className="text-4xl md:text-5xl font-light tracking-tight">Ontmoet het team</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {teamMembers.map((member) => (
             <div key={member.id}>
-              <div className="bg-gray-200 h-64 mb-4 overflow-hidden rounded-sm">
+              <div className="bg-muted h-64 mb-4 overflow-hidden rounded-sm">
                 <img
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}
@@ -57,8 +57,8 @@ export default function TeamSection() {
                 />
               </div>
               <h3 className="text-lg font-light mb-1">{member.name}</h3>
-              <p className="text-sm font-light text-gray-600 mb-3">{member.role}</p>
-              <p className="text-sm font-light text-gray-700 leading-relaxed">{member.bio}</p>
+              <p className="text-sm font-light text-muted-foreground mb-3">{member.role}</p>
+              <p className="text-sm font-light text-foreground/70 leading-relaxed">{member.bio}</p>
             </div>
           ))}
         </div>

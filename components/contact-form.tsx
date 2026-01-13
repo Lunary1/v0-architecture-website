@@ -54,9 +54,9 @@ export default function ContactForm() {
         <h2 className="text-2xl font-light tracking-tight mb-12">Stuur ons een bericht</h2>
 
         {submitted ? (
-          <div className="bg-gray-50 border border-gray-200 p-8">
+          <div className="bg-secondary border border-border p-8">
             <p className="text-lg font-light mb-2">Dank u wel voor uw bericht!</p>
-            <p className="font-light text-gray-600">
+            <p className="font-light text-muted-foreground">
               We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw interesse in Studio Architecten zeer op
               prijs.
             </p>
@@ -65,67 +65,67 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Naam *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Naam *</label>
               <Input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
                 placeholder="Uw naam"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">E-mailadres *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">E-mailadres *</label>
               <Input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
                 placeholder="uw@email.com"
               />
             </div>
 
             {/* Company */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Bedrijf</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Bedrijf</label>
               <Input
                 type="text"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
                 placeholder="Uw bedrijfsnaam"
               />
             </div>
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Telefoonnummer</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Telefoonnummer</label>
               <Input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
                 placeholder="+31 (0)20 123 4567"
               />
             </div>
 
             {/* Project Type */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Soort project *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Soort project *</label>
               <select
                 name="projectType"
                 value={formData.projectType}
                 onChange={handleChange}
                 required
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
               >
                 <option value="">Selecteer een optie</option>
                 <option value="residential">Residentieel</option>
@@ -138,12 +138,12 @@ export default function ContactForm() {
 
             {/* Budget */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Budget bereik</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Budget bereik</label>
               <select
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
               >
                 <option value="">Selecteer budget</option>
                 <option value="0-100k">€0 - €100.000</option>
@@ -155,13 +155,13 @@ export default function ContactForm() {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-light text-gray-600 mb-2">Bericht *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">Bericht *</label>
               <Textarea
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full bg-white border border-gray-300 rounded-none px-4 py-3 font-light focus:outline-none focus:border-black min-h-32"
+                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring min-h-32"
                 placeholder="Vertel ons over uw project..."
               />
             </div>
@@ -171,14 +171,14 @@ export default function ContactForm() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-black text-white px-8 py-3 font-light tracking-wide hover:bg-gray-800 transition disabled:opacity-50"
+                className="w-full bg-primary text-primary-foreground px-8 py-3 font-light tracking-wide hover:bg-primary/90 transition disabled:opacity-50"
               >
                 {loading ? "Verzenden..." : "Bericht versturen"}
               </Button>
             </div>
 
             {/* Note */}
-            <p className="text-xs font-light text-gray-600 pt-4">
+            <p className="text-xs font-light text-muted-foreground pt-4">
               We zullen uw gegevens vertrouwelijk behandelen conform onze privacybeleid.
             </p>
           </form>
