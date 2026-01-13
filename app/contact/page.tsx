@@ -3,6 +3,7 @@ import Footer from "@/components/footer"
 import ContactHero from "@/components/contact-hero"
 import ContactForm from "@/components/contact-form"
 import ContactInfo from "@/components/contact-info"
+import ContactMap from "@/components/contact-map"
 
 export const metadata = {
   title: "Contact | Studio Architecten",
@@ -11,15 +12,14 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="bg-white text-black">
+    <main className="bg-background text-foreground">
       <Navigation />
       <ContactHero />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-t border-border">
         <ContactInfo />
-        <div className="lg:col-span-2">
-          <ContactForm />
-        </div>
+        <ContactForm />
       </div>
+      <ContactMap />
       <Footer />
     </main>
   )

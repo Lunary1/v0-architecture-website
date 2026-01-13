@@ -49,12 +49,12 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="px-6 py-12 lg:py-24">
-      <div className="max-w-2xl">
-        <h2 className="text-2xl font-light tracking-tight mb-12">Stuur ons een bericht</h2>
+    <section className="px-6 lg:px-12 py-16 lg:py-24 bg-background">
+      <div className="max-w-lg mx-auto lg:mx-0">
+        <h2 className="text-2xl font-light tracking-tight mb-8">Stuur ons een bericht</h2>
 
         {submitted ? (
-          <div className="bg-secondary border border-border p-8">
+          <div className="bg-secondary/50 border border-border p-8 rounded-sm">
             <p className="text-lg font-light mb-2">Dank u wel voor uw bericht!</p>
             <p className="font-light text-muted-foreground">
               We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw interesse in Studio Architecten zeer op
@@ -72,7 +72,7 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
+                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
                 placeholder="Uw naam"
               />
             </div>
@@ -86,71 +86,75 @@ export default function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
+                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
                 placeholder="uw@email.com"
               />
             </div>
 
-            {/* Company */}
-            <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Bedrijf</label>
-              <Input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
-                placeholder="Uw bedrijfsnaam"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Company */}
+              <div>
+                <label className="block text-sm font-light text-muted-foreground mb-2">Bedrijf</label>
+                <Input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                  placeholder="Bedrijfsnaam"
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-light text-muted-foreground mb-2">Telefoon</label>
+                <Input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                  placeholder="+31 20 123 4567"
+                />
+              </div>
             </div>
 
-            {/* Phone */}
-            <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Telefoonnummer</label>
-              <Input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
-                placeholder="+31 (0)20 123 4567"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Project Type */}
+              <div>
+                <label className="block text-sm font-light text-muted-foreground mb-2">Soort project *</label>
+                <select
+                  name="projectType"
+                  value={formData.projectType}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                >
+                  <option value="">Selecteer een optie</option>
+                  <option value="residential-modern">Residentieel Modern</option>
+                  <option value="residential-classic">Residentieel Klassiek</option>
+                  <option value="industrial">Kantoor & Industriebouw</option>
+                  <option value="interior">Interieur</option>
+                  <option value="other">Overig</option>
+                </select>
+              </div>
 
-            {/* Project Type */}
-            <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Soort project *</label>
-              <select
-                name="projectType"
-                value={formData.projectType}
-                onChange={handleChange}
-                required
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
-              >
-                <option value="">Selecteer een optie</option>
-                <option value="residential">Residentieel</option>
-                <option value="industrial">Industrieel</option>
-                <option value="interior">Interieur</option>
-                <option value="mixed">Gemengd</option>
-                <option value="other">Overig</option>
-              </select>
-            </div>
-
-            {/* Budget */}
-            <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Budget bereik</label>
-              <select
-                name="budget"
-                value={formData.budget}
-                onChange={handleChange}
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring"
-              >
-                <option value="">Selecteer budget</option>
-                <option value="0-100k">€0 - €100.000</option>
-                <option value="100k-500k">€100.000 - €500.000</option>
-                <option value="500k-1m">€500.000 - €1.000.000</option>
-                <option value="1m+">€1.000.000+</option>
-              </select>
+              {/* Budget */}
+              <div>
+                <label className="block text-sm font-light text-muted-foreground mb-2">Budget bereik</label>
+                <select
+                  name="budget"
+                  value={formData.budget}
+                  onChange={handleChange}
+                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                >
+                  <option value="">Selecteer budget</option>
+                  <option value="0-100k">€0 - €100.000</option>
+                  <option value="100k-500k">€100.000 - €500.000</option>
+                  <option value="500k-1m">€500.000 - €1.000.000</option>
+                  <option value="1m+">€1.000.000+</option>
+                </select>
+              </div>
             </div>
 
             {/* Message */}
@@ -161,7 +165,7 @@ export default function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full bg-background border border-input rounded-none px-4 py-3 font-light focus:outline-none focus:border-ring min-h-32"
+                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition min-h-32 resize-none"
                 placeholder="Vertel ons over uw project..."
               />
             </div>
@@ -171,15 +175,15 @@ export default function ContactForm() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary text-primary-foreground px-8 py-3 font-light tracking-wide hover:bg-primary/90 transition disabled:opacity-50"
+                className="w-full md:w-auto bg-primary text-primary-foreground px-12 py-3 font-light tracking-wide hover:bg-primary/90 transition disabled:opacity-50 rounded-sm"
               >
                 {loading ? "Verzenden..." : "Bericht versturen"}
               </Button>
             </div>
 
             {/* Note */}
-            <p className="text-xs font-light text-muted-foreground pt-4">
-              We zullen uw gegevens vertrouwelijk behandelen conform onze privacybeleid.
+            <p className="text-xs font-light text-muted-foreground pt-2">
+              * Verplichte velden. We behandelen uw gegevens vertrouwelijk conform ons privacybeleid.
             </p>
           </form>
         )}
