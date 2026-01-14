@@ -1,7 +1,11 @@
-import Link from "next/link"
+import Link from "next/link";
+import { contactInfo } from "@/lib/data";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
+  const formatPhoneLink = (phone: string) => {
+    return phone.replace(/\s+/g, "");
+  };
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -9,26 +13,43 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Company Info */}
           <div>
-            <h4 className="text-lg font-light tracking-widest mb-6">STUDIO ARCH</h4>
+            <h4 className="text-lg font-light tracking-widest mb-6">
+              PAUL KINDT
+            </h4>
             <p className="font-light opacity-70 text-sm leading-relaxed">
-              Modern architecture studio specializing in residential, industrial, and interior design.
+              Modern architecture studio specializing in residential,
+              industrial, and interior design.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">PAGINA'S</h4>
+            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
+              PAGINA'S
+            </h4>
             <div className="space-y-3">
-              <Link href="/" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
+              <Link
+                href="/"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
                 Home
               </Link>
-              <Link href="/projecten" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
+              <Link
+                href="/projecten"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
                 Projecten
               </Link>
-              <Link href="/over" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
+              <Link
+                href="/over"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
                 Over Ons
               </Link>
-              <Link href="/nieuws" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
+              <Link
+                href="/nieuws"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
                 Nieuws
               </Link>
             </div>
@@ -36,38 +57,47 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">CONTACT</h4>
+            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
+              CONTACT
+            </h4>
             <div className="space-y-3 text-sm">
               <p className="font-light opacity-70">
-                <a href="tel:+31204551234" className="hover:opacity-100 transition">
-                  +31 (0)20 455 1234
+                <a
+                  href={`tel:${formatPhoneLink(contactInfo.phone)}`}
+                  className="hover:opacity-100 transition"
+                >
+                  {contactInfo.phone}
                 </a>
               </p>
               <p className="font-light opacity-70">
-                <a href="mailto:info@studioarch.nl" className="hover:opacity-100 transition">
-                  info@studioarch.nl
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="hover:opacity-100 transition"
+                >
+                  {contactInfo.email}
                 </a>
               </p>
               <p className="font-light opacity-70">
-                Prinsengracht 123
+                {contactInfo.address}
                 <br />
-                1015 EK Amsterdam
+                {contactInfo.city}
               </p>
             </div>
           </div>
 
           {/* Social Links */}
           <div>
-            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">VOLGEN</h4>
+            <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
+              VOLGEN
+            </h4>
             <div className="space-y-3">
-              <a href="#" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
-                Instagram
-              </a>
-              <a href="#" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
-                LinkedIn
-              </a>
-              <a href="#" className="block font-light opacity-70 hover:opacity-100 transition text-sm">
-                Twitter
+              <a
+                href={contactInfo.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
+                Facebook
               </a>
             </div>
           </div>
@@ -89,5 +119,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

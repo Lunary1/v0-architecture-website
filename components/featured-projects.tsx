@@ -1,70 +1,63 @@
-import Link from "next/link"
+import Link from "next/link";
+import { fetchProjects } from "@/lib/strapi";
 
-interface Project {
-  id: string
-  title: string
-  category: string
-  image: string
-  location: string
-}
+export default async function FeaturedProjects() {
+  const projects = await fetchProjects();
 
-const projects: Project[] = [
-  {
-    id: "residence-01",
-    title: "Minimalist Villa",
-    category: "Residentieel Modern",
-    image: "/modern-villa-architecture.jpg",
-    location: "Amsterdam",
-  },
-  {
-    id: "residence-02",
-    title: "Classic Estate",
-    category: "Residentieel Klassiek",
-    image: "/classic-residential-design.jpg",
-    location: "Utrecht",
-  },
-  {
-    id: "industrial-01",
-    title: "Office Complex",
-    category: "Kantoor & Industriebouw",
-    image: "/modern-office-building.png",
-    location: "Rotterdam",
-  },
-  {
-    id: "interior-01",
-    title: "Interior Design",
-    category: "Interieur",
-    image: "/luxury-interior-design.jpg",
-    location: "The Hague",
-  },
-]
+  // Sort by creation date descending (youngest/most recent first) and take 4
+  const featuredProjects = projects
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt || 0).getTime() -
+        new Date(a.createdAt || 0).getTime()
+    )
+    .slice(0, 4);
 
-export default function FeaturedProjects() {
   return (
     <section className="py-24 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
-          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">GESELECTEERDE PROJECTEN</p>
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight">Onze recente werken</h2>
+          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">
+            GESELECTEERDE PROJECTEN
+          </p>
+          <h2 className="text-4xl md:text-5xl font-light tracking-tight">
+            Onze recente werken
+          </h2>
         </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <Link key={project.id} href={`/projecten/${project.id}`} className="group cursor-pointer">
+          {featuredProjects.map((project) => (
+            <Link
+              key={project.documentId}
+              href={`/projecten/${project.documentId}`}
+              className="group cursor-pointer"
+            >
               <div className="relative h-96 md:h-80 overflow-hidden bg-muted mb-4">
-                <img
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
+                {project.thumbnail ? (
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-200 to-slate-300">
+                    <span className="text-sm text-slate-500">
+                      No image available
+                    </span>
+                  </div>
+                )}
               </div>
               <div>
-                <p className="text-xs font-light tracking-widest text-muted-foreground mb-2">{project.category}</p>
+                <p className="text-xs font-light tracking-widest text-muted-foreground mb-2">
+                  {(project.categories || []).join(" · ")}
+                </p>
                 <h3 className="text-2xl font-light tracking-tight group-hover:opacity-60 transition">
                   {project.title}
                 </h3>
-                <p className="text-sm font-light text-muted-foreground mt-2">{project.location}</p>
+                <p className="text-sm font-light text-muted-foreground mt-2">
+                  {project.location}
+                </p>
               </div>
             </Link>
           ))}
@@ -82,5 +75,5 @@ export default function FeaturedProjects() {
         </div>
       </div>
     </section>
-  )
+  );
 }

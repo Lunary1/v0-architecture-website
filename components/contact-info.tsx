@@ -1,24 +1,35 @@
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Facebook } from "lucide-react";
+import { contactInfo } from "@/lib/data";
 
 export default function ContactInfo() {
+  const formatPhoneLink = (phone: string) => {
+    return phone.replace(/\s+/g, "");
+  };
+
   return (
     <section className="px-6 lg:px-12 py-16 lg:py-24 bg-secondary/30 border-r border-border">
       <div className="max-w-lg mx-auto lg:mx-0">
-        <h2 className="text-2xl font-light tracking-tight mb-8">Contact Informatie</h2>
+        <h2 className="text-2xl font-light tracking-tight mb-8">
+          Contact Informatie
+        </h2>
 
-        {/* Headquarters */}
+        {/* Address */}
         <div className="mb-10">
           <div className="flex items-start gap-3 mb-3">
             <MapPin className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">HOOFDKANTOOR</h3>
-              <p className="font-light text-foreground mb-1">Studio Architecten</p>
+              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
+                ADRES
+              </h3>
+              <p className="font-light text-foreground mb-1">
+                {contactInfo.name}
+              </p>
               <p className="font-light text-muted-foreground text-sm leading-relaxed">
-                Prinsengracht 123
+                {contactInfo.address}
                 <br />
-                1015 EK Amsterdam
+                {contactInfo.city}
                 <br />
-                Netherlands
+                {contactInfo.country}
               </p>
             </div>
           </div>
@@ -29,10 +40,15 @@ export default function ContactInfo() {
           <div className="flex items-start gap-3 mb-4">
             <Phone className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">TELEFOON</h3>
+              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
+                TELEFOON
+              </h3>
               <p className="font-light text-foreground">
-                <a href="tel:+31204551234" className="hover:text-muted-foreground transition">
-                  +31 (0)20 455 1234
+                <a
+                  href={`tel:${formatPhoneLink(contactInfo.phone)}`}
+                  className="hover:text-muted-foreground transition"
+                >
+                  {contactInfo.phone}
                 </a>
               </p>
             </div>
@@ -41,10 +57,15 @@ export default function ContactInfo() {
           <div className="flex items-start gap-3">
             <Mail className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">E-MAIL</h3>
+              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
+                E-MAIL
+              </h3>
               <p className="font-light text-foreground">
-                <a href="mailto:info@studioarch.nl" className="hover:text-muted-foreground transition">
-                  info@studioarch.nl
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="hover:text-muted-foreground transition"
+                >
+                  {contactInfo.email}
                 </a>
               </p>
             </div>
@@ -56,26 +77,47 @@ export default function ContactInfo() {
           <div className="flex items-start gap-3">
             <Clock className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-3">KANTOORUREN</h3>
+              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-3">
+                KANTOORUREN
+              </h3>
               <div className="space-y-2">
                 <div className="flex justify-between gap-8">
-                  <span className="font-light text-muted-foreground text-sm">Maandag - Vrijdag</span>
-                  <span className="font-light text-foreground text-sm">09:00 - 18:00</span>
+                  <span className="font-light text-muted-foreground text-sm">
+                    Maandag - Vrijdag
+                  </span>
+                  <span className="font-light text-foreground text-sm">
+                    {contactInfo.hours}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-8">
-                  <span className="font-light text-muted-foreground text-sm">Zaterdag & Zondag</span>
-                  <span className="font-light text-foreground text-sm">Gesloten</span>
+                  <span className="font-light text-muted-foreground text-sm">
+                    Zaterdag & Zondag
+                  </span>
+                  <span className="font-light text-foreground text-sm">
+                    Gesloten
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-10 border-t border-border">
-          <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-4">VOLG ONS</h3>
+        {/* BTW Number */}
+        <div className="mb-10 pb-10 border-b border-border">
+          <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
+            BTW-NUMMER
+          </h3>
+          <p className="font-light text-foreground">{contactInfo.btw}</p>
+        </div>
+
+        {/* Social Links */}
+        <div className="pt-6">
+          <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-4">
+            VOLG ONS
+          </h3>
           <div className="flex gap-4">
             <a
-              href="https://facebook.com"
+              href={contactInfo.social.facebook}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-foreground hover:text-muted-foreground transition group"
@@ -83,29 +125,9 @@ export default function ContactInfo() {
               <Facebook className="w-5 h-5" />
               <span className="text-sm font-light">Facebook</span>
             </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-foreground hover:text-muted-foreground transition group"
-            >
-              <Instagram className="w-5 h-5" />
-              <span className="text-sm font-light">Instagram</span>
-            </a>
           </div>
-        </div>
-
-        <div className="pt-10 mt-10 border-t border-border">
-          <h3 className="text-xs font-light tracking-widest text-muted-foreground mb-2">REGIONAAL KANTOOR</h3>
-          <p className="font-light text-foreground text-sm mb-0.5">Studio Architecten Rotterdam</p>
-          <p className="font-light text-muted-foreground text-xs">Kruiskade 89, 3012 EE Rotterdam</p>
-          <p className="font-light text-foreground text-sm mt-2">
-            <a href="tel:+31104561234" className="hover:text-muted-foreground transition">
-              +31 (0)10 456 1234
-            </a>
-          </p>
         </div>
       </div>
     </section>
-  )
+  );
 }
