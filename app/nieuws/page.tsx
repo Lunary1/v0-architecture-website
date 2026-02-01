@@ -3,9 +3,9 @@ import Footer from "@/components/footer";
 import NewsGrid from "@/components/news-grid";
 
 export const metadata = {
-  title: "Nieuws & Pers | Studio Architecten",
+  title: "Nieuws & Pers | Architectenbureau Paul Kindt",
   description:
-    "Ontdek het laatste nieuws, persberichten en media coverage van Studio Architecten.",
+    "Ontdek het laatste nieuws, persberichten en media coverage van Architectenbureau Paul Kindt.",
 };
 
 export default function NewsPage() {

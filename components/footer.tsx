@@ -114,7 +114,10 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-primary-foreground/20 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-light opacity-50">
-            <p>&copy; {currentYear} Studio Architecten. All rights reserved.</p>
+            <p>
+              &copy; {currentYear} Architectenbureau Paul Kindt. All rights
+              reserved.
+            </p>
             <div className="flex gap-6">
               <Link href="#" className="hover:opacity-100 transition">
                 Privacy Policy

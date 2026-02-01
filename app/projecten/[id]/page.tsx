@@ -5,7 +5,7 @@ import Link from "next/link";
 import ProjectDetailClient from "./project-detail-client";
 
 export const metadata = {
-  title: "Project | Studio Architecten",
+  title: "Project | Architectenbureau Paul Kindt",
   description: "Ontdek ons architectuurproject in detail",
 };
 

@@ -1,14 +1,15 @@
-import Navigation from "@/components/navigation"
-import Footer from "@/components/footer"
-import ContactHero from "@/components/contact-hero"
-import ContactForm from "@/components/contact-form"
-import ContactInfo from "@/components/contact-info"
-import ContactMap from "@/components/contact-map"
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import ContactHero from "@/components/contact-hero";
+import ContactForm from "@/components/contact-form";
+import ContactInfo from "@/components/contact-info";
+import ContactMap from "@/components/contact-map";
 
 export const metadata = {
-  title: "Contact | Studio Architecten",
-  description: "Neem contact op met Studio Architecten voor uw architectuurproject.",
-}
+  title: "Contact | Architectenbureau Paul Kindt",
+  description:
+    "Neem contact op met Architectenbureau Paul Kindt voor uw architectuurproject.",
+};
 
 export default function ContactPage() {
   return (
@@ -22,5 +23,5 @@ export default function ContactPage() {
       <ContactMap />
       <Footer />
     </main>
-  )
+  );
 }

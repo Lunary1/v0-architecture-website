@@ -14,84 +14,66 @@ export const contactInfo = {
   },
 };
 
-export const studioInfo = {
-  name: "Studio Architecten",
-  tagline: "Designing Tomorrow's Spaces Today",
-  description:
-    "A forward-thinking architecture studio specializing in contemporary residential, commercial, and industrial design.",
-  headquarters: {
-    name: "Amsterdam Headquarters",
-    address: "Museumplein 1, 1071 DJ Amsterdam",
-    phone: "+31 20 570 5700",
-    hours: "Mon-Fri: 09:00 - 18:00",
-  },
-  office: {
-    name: "Rotterdam Office",
-    address: "Kop van Zuid 10, 3072 AD Rotterdam",
-    phone: "+31 10 290 1100",
-    hours: "Mon-Fri: 09:00 - 18:00",
-  },
-  email: "hello@studioarchitecten.nl",
-  social: {
-    instagram: "https://instagram.com/studioarchitecten",
-    linkedin: "https://linkedin.com/company/studioarchitecten",
-    facebook: "https://facebook.com/studioarchitecten",
-  },
-};
-
 export const testimonials = [
   {
-    name: "Jan de Vries",
-    role: "CEO, Tech Solutions",
+    name: "Inge Vermeulen",
+    role: "Huiseigenaar, Utrecht",
     quote:
-      "Studio Architecten transformed our vision into reality. Their attention to detail and creative problem-solving exceeded our expectations.",
+      "Het was geweldig om met Architectenbureau Paul Kindt samen te werken aan onze verbouwing. Ze luisterden echt naar onze wensen en realiseerden een woning die perfect voor onze familie is. Duidelijk en betrouwbaar team.",
     image: "/professional-portrait.jpg",
   },
   {
-    name: "Maria García",
-    role: "Homeowner",
+    name: "Peter Dirksen",
+    role: "Directeur, Retail Bedrijf",
     quote:
-      "The team was professional, responsive, and created a home that perfectly matches our lifestyle. Highly recommended!",
+      "Voor onze nieuwe winkelruimte hebben we Architectenbureau Paul Kindt ingeschakeld. Het ontwerp is niet alleen mooi, maar verhoogt ook echt de klantbeleving. Zeer professioneel afgehandeld en op tijd opgeleverd.",
     image: "/professional-portrait.jpg",
   },
   {
-    name: "Robert Schmidt",
-    role: "Property Developer",
+    name: "Marieke van den Berg",
+    role: "Eigenaar Peuteropvang, Amsterdam",
     quote:
-      "Working with Studio Architecten has been a game-changer for our development projects. Their innovative approach delivers results.",
+      "De ruimte die Architectenbureau Paul Kindt voor ons ontworpen heeft, is veilig, licht en heel fijn voor de kinderen. Het team begreep perfect wat we nodig hadden voor een goede opvangomgeving. Top aanbeveling!",
+    image: "/professional-portrait.jpg",
+  },
+  {
+    name: "Frank de Boer",
+    role: "Bouwer/Aannemer",
+    quote:
+      "Ik werk al jaren met verschillende architecten. Architectenbureau Paul Kindt onderscheidt zich door hun praktische aanpak en realistische planning. Ze begrijpen de bouwprocessen en dat maakt het samenwerken echt makkelijker.",
     image: "/professional-portrait.jpg",
   },
 ];
 
 export const services = [
   {
-    title: "Architectural Design",
+    title: "Architectonisch Ontwerp",
     description:
-      "Comprehensive architectural services from concept to completion.",
+      "Van woningbouw tot commerciële ruimtes. We ontwerpen functoneel en mooi, met aandacht voor bouwwetgeving en duurzaamheid.",
   },
   {
-    title: "Interior Design",
+    title: "Renovatie & Verbouwing",
     description:
-      "Creative interior solutions that enhance spaces and functionality.",
+      "Uw bestaande woning of pand volledig nieuw leven inblazen. We denken mee over mogelijkheden, technieken en budgettering.",
   },
   {
-    title: "Urban Planning",
+    title: "Interieurontwerp",
     description:
-      "Strategic planning for urban development and community projects.",
+      "Ruimtes die perfect aansluiten op uw leefstijl. Van ruimteverdeling tot materiaaladvies en inrichtingsconcepten.",
   },
   {
-    title: "Sustainable Design",
+    title: "3D Visualisaties & Renderings",
     description:
-      "Eco-conscious design practices for environmentally responsible projects.",
+      "Realistische beelden van uw project voordat de bouw begint. Helpt u de keuzes beter in te schatten en met aannemers te communiceren.",
   },
   {
-    title: "3D Visualization",
+    title: "Omgevingsontwerp",
     description:
-      "High-quality renderings to help clients visualize projects before construction.",
+      "Buitenruimtes die samenhangen met het gebouw. Tuinen, terreinen en openbare ruimtes worden onderdeel van het totaalconcept.",
   },
   {
-    title: "Project Management",
+    title: "Projectbegeleiding",
     description:
-      "End-to-end project management ensuring smooth execution and timely delivery.",
+      "Wij begeleiden u van ontwerp tot oplevering. Regelwerk, vergunningen, aanbestedingen en toezicht op de bouw.",
   },
 ];

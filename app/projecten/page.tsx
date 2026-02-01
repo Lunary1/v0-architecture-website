@@ -4,7 +4,7 @@ import ProjectsGrid from "@/components/projects-grid";
 import { fetchProjects, fetchCategories } from "@/lib/strapi";
 
 export const metadata = {
-  title: "Projecten | Studio Architecten",
+  title: "Projecten | Architectenbureau Paul Kindt",
   description:
     "Bekijk onze volledige portfolio van residentiële, industriële en interieur projecten.",
 };

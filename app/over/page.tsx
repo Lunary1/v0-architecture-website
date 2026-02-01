@@ -5,9 +5,9 @@ import AboutContent from "@/components/about-content";
 import TeamSection from "@/components/team-section";
 
 export const metadata = {
-  title: "Over Ons | Studio Architecten",
+  title: "Over Ons | Architectenbureau Paul Kindt",
   description:
-    "Ontdek onze verhaal, missie, en het team achter Studio Architecten.",
+    "Ontdek onze verhaal, missie, en het team achter Architectenbureau Paul Kindt.",
 };
 
 export default function AboutPage() {

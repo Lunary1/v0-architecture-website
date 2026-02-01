@@ -1,4 +1,4 @@
-# Copilot Instructions for Studio Architecten Website
+# Copilot Instructions for Architectenbureau Paul Kindt Website
 
 ## Project Overview
 

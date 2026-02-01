@@ -66,7 +66,7 @@ export default function ContactForm() {
             </p>
             <p className="font-light text-muted-foreground">
               We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw
-              interesse in Studio Architecten zeer op prijs.
+              interesse in Architectenbureau Paul Kindt zeer op prijs.
             </p>
           </div>
         ) : (

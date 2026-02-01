@@ -1,20 +1,20 @@
-import Navigation from "@/components/navigation"
-import Footer from "@/components/footer"
-import Link from "next/link"
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import Link from "next/link";
 
 interface NewsDetailPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 const newsArticles: Record<
   string,
   {
-    title: string
-    date: string
-    category: string
-    author: string
-    content: string
-    image: string
+    title: string;
+    date: string;
+    category: string;
+    author: string;
+    content: string;
+    image: string;
   }
 > = {
   "news-01": {
@@ -35,16 +35,16 @@ const newsArticles: Record<
       "The Minimalist Villa project in Amsterdam has officially opened its doors to residents. This innovative residential complex showcases our commitment to modern design and sustainable living solutions.\n\nThe project features cutting-edge sustainable technology, including solar panels, rainwater harvesting systems, and energy-efficient HVAC systems. Each residence is designed with open floor plans that maximize natural light and create seamless indoor-outdoor living spaces.\n\nResidents have praised the thoughtful design and high-quality finishes. The project includes shared community spaces that foster connection and collaboration among residents.\n\nThis successful completion demonstrates our ability to deliver complex residential projects on time and within budget, while exceeding sustainability standards.",
     image: "/residential-opening.jpg",
   },
-}
+};
 
 export const metadata = {
-  title: "Artikel | Studio Architecten",
-  description: "Lees het laatste artikel van Studio Architecten",
-}
+  title: "Artikels | Architectenbureau Paul Kindt",
+  description: "Lees het laatste artikel van Architectenbureau Paul Kindt",
+};
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
-  const { id } = await params
-  const article = newsArticles[id]
+  const { id } = await params;
+  const article = newsArticles[id];
 
   if (!article) {
     return (
@@ -53,20 +53,27 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-3xl font-light mb-4">Artikel niet gevonden</h1>
-            <Link href="/nieuws" className="text-sm font-light tracking-widest hover:opacity-60 transition">
+            <Link
+              href="/nieuws"
+              className="text-sm font-light tracking-widest hover:opacity-60 transition"
+            >
               Terug naar nieuws →
             </Link>
           </div>
         </div>
         <Footer />
       </main>
-    )
+    );
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("nl-NL", { year: "numeric", month: "long", day: "numeric" })
-  }
+    const date = new Date(dateString);
+    return date.toLocaleDateString("nl-NL", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
     <main className="bg-background text-foreground">
@@ -85,22 +92,37 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           {/* Article Header */}
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-xs font-light tracking-widest text-muted-foreground">{article.category}</span>
-              <span className="text-xs font-light text-muted-foreground">{formatDate(article.date)}</span>
+              <span className="text-xs font-light tracking-widest text-muted-foreground">
+                {article.category}
+              </span>
+              <span className="text-xs font-light text-muted-foreground">
+                {formatDate(article.date)}
+              </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-6">{article.title}</h1>
-            <p className="text-base font-light text-muted-foreground">By {article.author}</p>
+            <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-6">
+              {article.title}
+            </h1>
+            <p className="text-base font-light text-muted-foreground">
+              By {article.author}
+            </p>
           </div>
 
           {/* Featured Image */}
           <div className="relative h-96 md:h-[500px] bg-muted mb-16 overflow-hidden">
-            <img src={article.image || "/placeholder.svg"} alt={article.title} className="w-full h-full object-cover" />
+            <img
+              src={article.image || "/placeholder.svg"}
+              alt={article.title}
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Article Content */}
           <div className="prose prose-lg max-w-none">
             {article.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="text-lg font-light text-foreground/70 leading-relaxed mb-8">
+              <p
+                key={index}
+                className="text-lg font-light text-foreground/70 leading-relaxed mb-8"
+              >
                 {paragraph}
               </p>
             ))}
@@ -109,11 +131,17 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           {/* Article Footer */}
           <div className="mt-16 pt-12 border-t border-border">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Link href="/nieuws" className="text-sm font-light tracking-widest hover:opacity-60 transition">
+              <Link
+                href="/nieuws"
+                className="text-sm font-light tracking-widest hover:opacity-60 transition"
+              >
                 ← Meer nieuws
               </Link>
               <div className="text-right">
-                <Link href="/contact" className="text-sm font-light tracking-widest hover:opacity-60 transition">
+                <Link
+                  href="/contact"
+                  className="text-sm font-light tracking-widest hover:opacity-60 transition"
+                >
                   Neem contact op →
                 </Link>
               </div>
@@ -124,5 +152,5 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       <Footer />
     </main>
-  )
+  );
 }

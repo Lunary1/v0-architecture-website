@@ -138,7 +138,7 @@ export default function NewsGrid() {
           </h1>
           <p className="text-lg font-light text-muted-foreground max-w-2xl">
             Ontdek het laatste nieuws, persberichten en projectaankondigingen
-            van Studio Architecten
+            van Architectenbureau Paul Kindt.
           </p>
         </div>
 
