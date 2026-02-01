@@ -11,22 +11,22 @@ const teamMembers: TeamMember[] = [
     id: "team-1",
     name: "Paul Kindt",
     role: "Zaakvoerder & Hoofd Architect",
-    bio: "25+ years in architecture with expertise in residential design",
-    image: "/paul.png",
+    bio: "Met meer dan 25 jaar ervaring ontwerpt Paul residentiële architectuur met aandacht voor context, functionaliteit en detail.",
+    image: "/placeholder.svg",
   },
   {
     id: "team-2",
     name: "Tim Adams",
     role: "Architect",
-    bio: "Award-winning designer specializing in interior spaces",
-    image: "/tim.jpg",
+    bio: "Als architect werkt Tim mee aan uiteenlopende projecten binnen het bureau, met aandacht voor ontwerp, uitwerking en opvolging.",
+    image: "/placeholder.svg",
   },
   {
     id: "team-3",
     name: "Caroline",
     role: "Technisch Tekenaar",
-    bio: "Industrial design expert with focus on sustainable solutions",
-    image: "/industrial-architect-portrait.jpg",
+    bio: "Caroline is technisch tekenaar en vormt al jaren een vaste waarde binnen het bureau. Ze staat in voor de technische uitwerking en ondersteuning van de projecten.",
+    image: "/placeholder.svg",
   },
 ];
 
@@ -43,10 +43,31 @@ export default function TeamSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member) => (
+        {/* Featured Member - Full Width */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+          <div className="bg-muted h-96 overflow-hidden rounded-sm">
+            <img
+              src={teamMembers[0].image || "/placeholder.svg"}
+              alt={teamMembers[0].name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <h3 className="text-2xl font-light mb-2">{teamMembers[0].name}</h3>
+            <p className="text-base font-light text-muted-foreground mb-6">
+              {teamMembers[0].role}
+            </p>
+            <p className="text-base font-light text-foreground/70 leading-relaxed">
+              {teamMembers[0].bio}
+            </p>
+          </div>
+        </div>
+
+        {/* Other Team Members - 2 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {teamMembers.slice(1).map((member) => (
             <div key={member.id}>
-              <div className="bg-muted h-96 mb-4 overflow-hidden rounded-sm">
+              <div className="bg-muted h-72 mb-6 overflow-hidden rounded-sm">
                 <img
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}

@@ -38,24 +38,31 @@ export default function AboutContent() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12 border-t border-b border-border">
-          <div>
-            <p className="text-4xl font-light mb-2">100+</p>
-            <p className="text-sm font-light text-muted-foreground tracking-wide">
-              Projecten Voltooid
-            </p>
-          </div>
-          <div>
-            <p className="text-4xl font-light mb-2">20+</p>
-            <p className="text-sm font-light text-muted-foreground tracking-wide">
-              Jaar Ervaring
-            </p>
-          </div>
-          <div>
-            <p className="text-4xl font-light mb-2">10+</p>
-            <p className="text-sm font-light text-muted-foreground tracking-wide">
-              Awards Gewonnen
-            </p>
+        <div className="py-12 border-t border-b border-border">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Featured Stat */}
+            <div className="flex flex-col justify-center">
+              <p className="text-6xl md:text-7xl font-light mb-4">100+</p>
+              <p className="text-base font-light text-muted-foreground tracking-wide">
+                Projecten Voltooid
+              </p>
+            </div>
+
+            {/* Other Stats - 2 Column Grid */}
+            <div className="grid grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-4xl font-light mb-2">20+</p>
+                <p className="text-sm font-light text-muted-foreground tracking-wide">
+                  Jaar Ervaring
+                </p>
+              </div>
+              <div>
+                <p className="text-4xl font-light mb-2">10+</p>
+                <p className="text-sm font-light text-muted-foreground tracking-wide">
+                  Awards Gewonnen
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
