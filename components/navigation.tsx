@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -14,11 +15,15 @@ export default function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background">
       <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-lg font-light tracking-widest hover:opacity-80 transition"
-        >
-          Architectenbureau Paul Kindt
+        <Link href="/" className="hover:opacity-80 transition block">
+          <Image
+            src="/logo.jpg"
+            alt="Architectenbureau Paul Kindt"
+            width={120}
+            height={40}
+            className="h-16 w-auto object-contain invert"
+            priority
+          />
         </Link>
 
         {/* Desktop Navigation */}

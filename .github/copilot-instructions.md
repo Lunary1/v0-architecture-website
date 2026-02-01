@@ -19,6 +19,7 @@ A Next.js 16 marketing website for an architecture studio, built with v0.app and
 **Live Data Source:** `https://grateful-charity-81ae2ee2e5.strapiapp.com/api`
 
 **[lib/strapi.ts](lib/strapi.ts) Module:**
+
 - `fetchProjects()` - fetch all projects with categories, descriptions (rich text blocks), images
 - `fetchProjectById(id)` - fetch single project by ID for detail pages
 - `fetchCategories()` - fetch category list for grid filtering
@@ -26,6 +27,7 @@ A Next.js 16 marketing website for an architecture studio, built with v0.app and
 - Type definitions: `StrapiProject`, `StrapiCategory`, `Project`, `Category`
 
 **Components Using Strapi:**
+
 - [components/projects-grid.tsx](components/projects-grid.tsx) - uses `fetchProjects()` and `fetchCategories()` for filtering
 - [components/featured-projects.tsx](components/featured-projects.tsx) - uses `fetchProjects()` to display featured items
 - [components/hero.tsx](components/hero.tsx) - uses `fetchProjects()` for background image fallback
@@ -41,7 +43,7 @@ A Next.js 16 marketing website for an architecture studio, built with v0.app and
 3. Strapi API returns projects with category relations and rich text descriptions
 4. Grid renders filterable project list; `parseDescription()` converts rich blocks to string
 5. User clicks project → navigates to `/projecten/[id]`
-6. [app/projecten/[id]/page.tsx](app/projecten/[id]/page.tsx) calls `fetchProjectById(id)` 
+6. [app/projecten/[id]/page.tsx](app/projecten/[id]/page.tsx) calls `fetchProjectById(id)`
 7. Detail page displays full project info (description, images, specs) from Strapi
 
 **Rich Text Format:** Strapi descriptions stored as block array; `parseDescription()` handles parsing

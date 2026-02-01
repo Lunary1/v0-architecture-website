@@ -1,6 +1,8 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import StrapiBlocksRenderer from "@/components/blocks-renderer";
+import StrapiBlocksRenderer, {
+  BlocksContent,
+} from "@/components/blocks-renderer";
 import { fetchProjects, fetchProjectByDocumentId } from "@/lib/strapi";
 import Link from "next/link";
 
@@ -75,7 +77,9 @@ export default async function ProjectDetailPage({
                   <p className="text-xs font-light tracking-widest text-muted-foreground mb-2">
                     CATEGORIE
                   </p>
-                  <p className="text-base font-light">{project.categories}</p>
+                  <p className="text-base font-light">
+                    {project.categories.join(", ")}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs font-light tracking-widest text-muted-foreground mb-2">
@@ -121,14 +125,15 @@ export default async function ProjectDetailPage({
               )}
 
               <div className="space-y-12">
-                {project.descriptionBlocks && project.descriptionBlocks.length > 0 && (
-                  <div>
-                    <h2 className="text-2xl font-light tracking-tight mb-6">
-                      Beschrijving
-                    </h2>
-                    <StrapiBlocksRenderer content={project.descriptionBlocks} />
-                  </div>
-                )}
+                {project.descriptionBlocks &&
+                  project.descriptionBlocks.length > 0 && (
+                    <div>
+                      <h2 className="text-2xl font-light tracking-tight mb-6"></h2>
+                      <StrapiBlocksRenderer
+                        content={project.descriptionBlocks as BlocksContent}
+                      />
+                    </div>
+                  )}
               </div>
             </div>
           </div>

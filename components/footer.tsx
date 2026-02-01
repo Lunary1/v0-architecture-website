@@ -99,6 +99,14 @@ export default function Footer() {
               >
                 Facebook
               </a>
+              <a
+                href={contactInfo.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+              >
+                Instagram
+              </a>
             </div>
           </div>
         </div>

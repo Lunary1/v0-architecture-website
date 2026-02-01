@@ -12,19 +12,19 @@ const teamMembers: TeamMember[] = [
     name: "Paul Kindt",
     role: "Zaakvoerder & Hoofd Architect",
     bio: "25+ years in architecture with expertise in residential design",
-    image: "/professional-architect-portrait.jpg",
+    image: "/paul.png",
   },
   {
-    id: "Tim Adams",
-    name: "Sarah Müller",
-    role: "Design Director",
+    id: "team-2",
+    name: "Tim Adams",
+    role: "Architect",
     bio: "Award-winning designer specializing in interior spaces",
-    image: "/interior-designer-portrait.jpg",
+    image: "/tim.jpg",
   },
   {
     id: "team-3",
-    name: "TBD",
-    role: "Senior Architect",
+    name: "Caroline",
+    role: "Technisch Tekenaar",
     bio: "Industrial design expert with focus on sustainable solutions",
     image: "/industrial-architect-portrait.jpg",
   },
@@ -46,7 +46,7 @@ export default function TeamSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member) => (
             <div key={member.id}>
-              <div className="bg-muted h-64 mb-4 overflow-hidden rounded-sm">
+              <div className="bg-muted h-96 mb-4 overflow-hidden rounded-sm">
                 <img
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}

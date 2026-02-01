@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -16,26 +16,30 @@ export default function ContactForm() {
     projectType: "",
     budget: "",
     message: "",
-  })
+  });
 
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     setTimeout(() => {
-      setSubmitted(true)
-      setLoading(false)
+      setSubmitted(true);
+      setLoading(false);
       setFormData({
         name: "",
         email: "",
@@ -44,28 +48,34 @@ export default function ContactForm() {
         projectType: "",
         budget: "",
         message: "",
-      })
-    }, 1000)
-  }
+      });
+    }, 1000);
+  };
 
   return (
     <section className="px-6 lg:px-12 py-16 lg:py-24 bg-background">
       <div className="max-w-lg mx-auto lg:mx-0">
-        <h2 className="text-2xl font-light tracking-tight mb-8">Stuur ons een bericht</h2>
+        <h2 className="text-2xl font-light tracking-tight mb-8">
+          Stuur ons een bericht
+        </h2>
 
         {submitted ? (
           <div className="bg-secondary/50 border border-border p-8 rounded-sm">
-            <p className="text-lg font-light mb-2">Dank u wel voor uw bericht!</p>
+            <p className="text-lg font-light mb-2">
+              Dank u wel voor uw bericht!
+            </p>
             <p className="font-light text-muted-foreground">
-              We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw interesse in Studio Architecten zeer op
-              prijs.
+              We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw
+              interesse in Studio Architecten zeer op prijs.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Naam *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">
+                Naam *
+              </label>
               <Input
                 type="text"
                 name="name"
@@ -79,7 +89,9 @@ export default function ContactForm() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">E-mailadres *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">
+                E-mailadres *
+              </label>
               <Input
                 type="email"
                 name="email"
@@ -92,74 +104,27 @@ export default function ContactForm() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Company */}
-              <div>
-                <label className="block text-sm font-light text-muted-foreground mb-2">Bedrijf</label>
-                <Input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
-                  placeholder="Bedrijfsnaam"
-                />
-              </div>
-
               {/* Phone */}
               <div>
-                <label className="block text-sm font-light text-muted-foreground mb-2">Telefoon</label>
+                <label className="block text-sm font-light text-muted-foreground mb-2">
+                  Telefoon
+                </label>
                 <Input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
-                  placeholder="+31 20 123 4567"
+                  placeholder="+32 470 12 34 56"
                 />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Project Type */}
-              <div>
-                <label className="block text-sm font-light text-muted-foreground mb-2">Soort project *</label>
-                <select
-                  name="projectType"
-                  value={formData.projectType}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
-                >
-                  <option value="">Selecteer een optie</option>
-                  <option value="residential-modern">Residentieel Modern</option>
-                  <option value="residential-classic">Residentieel Klassiek</option>
-                  <option value="industrial">Kantoor & Industriebouw</option>
-                  <option value="interior">Interieur</option>
-                  <option value="other">Overig</option>
-                </select>
-              </div>
-
-              {/* Budget */}
-              <div>
-                <label className="block text-sm font-light text-muted-foreground mb-2">Budget bereik</label>
-                <select
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleChange}
-                  className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
-                >
-                  <option value="">Selecteer budget</option>
-                  <option value="0-100k">€0 - €100.000</option>
-                  <option value="100k-500k">€100.000 - €500.000</option>
-                  <option value="500k-1m">€500.000 - €1.000.000</option>
-                  <option value="1m+">€1.000.000+</option>
-                </select>
               </div>
             </div>
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">Bericht *</label>
+              <label className="block text-sm font-light text-muted-foreground mb-2">
+                Bericht *
+              </label>
               <Textarea
                 name="message"
                 value={formData.message}
@@ -183,11 +148,12 @@ export default function ContactForm() {
 
             {/* Note */}
             <p className="text-xs font-light text-muted-foreground pt-2">
-              * Verplichte velden. We behandelen uw gegevens vertrouwelijk conform ons privacybeleid.
+              * Verplichte velden. We behandelen uw gegevens vertrouwelijk
+              conform ons privacybeleid.
             </p>
           </form>
         )}
       </div>
     </section>
-  )
+  );
 }
