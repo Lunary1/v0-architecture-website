@@ -7,7 +7,7 @@ export default async function Hero() {
   const newestProject = projects.sort(
     (a, b) =>
       new Date(b.createdAt || 0).getTime() -
-      new Date(a.createdAt || 0).getTime()
+      new Date(a.createdAt || 0).getTime(),
   )[0];
 
   const backgroundImage = newestProject?.thumbnail || "";
@@ -38,23 +38,18 @@ export default async function Hero() {
         <p className="text-lg font-light opacity-80 mb-12">
           Modern design. Timeless quality. Sustainable solutions.
         </p>
+      </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg className="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          />
+        </svg>
       </div>
     </section>
   );
