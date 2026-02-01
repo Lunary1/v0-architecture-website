@@ -32,7 +32,7 @@ const teamMembers: TeamMember[] = [
 
 export default function TeamSection() {
   return (
-    <section className="py-24 px-6 bg-secondary">
+    <section className="py-28 px-6 bg-secondary">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">

@@ -20,7 +20,6 @@ export default async function ProjectsPage() {
   return (
     <main className="bg-white text-black">
       <Navigation />
-      <div className="pt-32" />
       <ProjectsGrid projects={projects} categories={categories} />
       <Footer />
     </main>

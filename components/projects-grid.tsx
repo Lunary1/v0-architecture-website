@@ -27,7 +27,7 @@ export default function ProjectsGrid({
   const displayCategories = useMemo(() => {
     if (categories.length === 0) return defaultCategories;
     const strapiCategoryNames = categories.map((c) => c.name);
-    return ["Alle Projecten", ...strapiCategoryNames.sort()];
+    return ["Alle Projecten", ...strapiCategoryNames];
   }, [categories]);
 
   const filteredProjects = useMemo(() => {
@@ -36,19 +36,19 @@ export default function ProjectsGrid({
     }
     // Check if project has ANY of the active categories (many-to-many relationship)
     return projects.filter((project) =>
-      project.categories.includes(activeCategory)
+      project.categories.includes(activeCategory),
     );
   }, [activeCategory, projects]);
 
   return (
-    <section className="py-24 px-6">
+    <section className="pt-32 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16">
           <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">
             ALLE PROJECTEN
           </p>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-8">
+          <h1 className="text-5xl md:text-6xl font-light tracking-tight mb-8">
             Ons volledige portfolio
           </h1>
           <p className="text-lg font-light text-muted-foreground max-w-2xl">

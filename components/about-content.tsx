@@ -48,7 +48,7 @@ export default function AboutContent() {
           <div>
             <p className="text-4xl font-light mb-2">20+</p>
             <p className="text-sm font-light text-muted-foreground tracking-wide">
-              Jaren Ervaring
+              Jaar Ervaring
             </p>
           </div>
           <div>

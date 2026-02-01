@@ -7,7 +7,7 @@ export default function AboutHero() {
             OVER ONS
           </p>
           <h1 className="text-5xl md:text-6xl font-light tracking-tight leading-tight">
-            Modern Architecture. Timeless Design.
+            Moderne Architectuur. Tijdloos Design.
           </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
