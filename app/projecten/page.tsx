@@ -2,11 +2,24 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import ProjectsGrid from "@/components/projects-grid";
 import { fetchProjects, fetchCategories } from "@/lib/strapi";
+import type { Metadata } from "next";
 
-export const metadata = {
+const SITE_URL = "https://www.architect-kindt.be";
+
+export const metadata: Metadata = {
   title: "Projecten | Architectenbureau Paul Kindt",
   description:
     "Bekijk onze volledige portfolio van residentiële, industriële en interieur projecten.",
+  alternates: {
+    canonical: `${SITE_URL}/projecten`,
+  },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/projecten`,
+    title: "Projecten | Architectenbureau Paul Kindt",
+    description:
+      "Bekijk onze volledige portfolio van residentiële, industriële en interieur projecten.",
+  },
 };
 
 export const revalidate = 3600; // ISR: revalidate every hour

@@ -48,6 +48,7 @@ export default function TeamSection() {
           <img
             src="/placeholder.svg"
             alt="Het team van Architectenbureau Paul Kindt"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>

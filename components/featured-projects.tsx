@@ -38,6 +38,7 @@ export default async function FeaturedProjects() {
                   <img
                     src={project.thumbnail}
                     alt={project.title}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 ) : (

@@ -158,6 +158,7 @@ export default function ProjectDetailClient({
                         <img
                           src={imageUrl}
                           alt={`${project.title} - Image ${index + 1}`}
+                          loading="lazy"
                           className="w-full h-full object-cover hover:opacity-90 transition duration-300"
                           data-gallery-image
                           data-image-index={index}

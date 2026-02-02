@@ -4,11 +4,24 @@ import ContactHero from "@/components/contact-hero";
 import ContactForm from "@/components/contact-form";
 import ContactInfo from "@/components/contact-info";
 import ContactMap from "@/components/contact-map";
+import type { Metadata } from "next";
 
-export const metadata = {
+const SITE_URL = "https://www.architect-kindt.be";
+
+export const metadata: Metadata = {
   title: "Contact | Architectenbureau Paul Kindt",
   description:
     "Neem contact op met Architectenbureau Paul Kindt voor uw architectuurproject.",
+  alternates: {
+    canonical: `${SITE_URL}/contact`,
+  },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/contact`,
+    title: "Contact | Architectenbureau Paul Kindt",
+    description:
+      "Neem contact op met Architectenbureau Paul Kindt voor uw architectuurproject.",
+  },
 };
 
 export default function ContactPage() {

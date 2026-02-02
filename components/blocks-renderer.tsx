@@ -1,103 +1,103 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from "react";
 
 // Type definitions for Strapi blocks content
 export type BlocksContent = Array<
   | {
-      type: "paragraph"
-      children: Array<TextBlock | ModifierBlock>
+      type: "paragraph";
+      children: Array<TextBlock | ModifierBlock>;
     }
   | {
-      type: "heading"
-      level: 1 | 2 | 3 | 4 | 5 | 6
-      children: Array<TextBlock | ModifierBlock>
+      type: "heading";
+      level: 1 | 2 | 3 | 4 | 5 | 6;
+      children: Array<TextBlock | ModifierBlock>;
     }
   | {
-      type: "list"
-      format: "ordered" | "unordered"
-      children: Array<ListItemBlock>
+      type: "list";
+      format: "ordered" | "unordered";
+      children: Array<ListItemBlock>;
     }
   | {
-      type: "quote"
-      children: Array<TextBlock | ModifierBlock>
+      type: "quote";
+      children: Array<TextBlock | ModifierBlock>;
     }
   | {
-      type: "code"
-      children: Array<TextBlock>
-      plainText?: string
+      type: "code";
+      children: Array<TextBlock>;
+      plainText?: string;
     }
   | {
-      type: "image"
+      type: "image";
       image: {
-        url: string
-        alternativeText?: string
-        width?: number
-        height?: number
-      }
+        url: string;
+        alternativeText?: string;
+        width?: number;
+        height?: number;
+      };
     }
   | {
-      type: "link"
-      url: string
-      children: Array<TextBlock | ModifierBlock>
+      type: "link";
+      url: string;
+      children: Array<TextBlock | ModifierBlock>;
     }
->
+>;
 
 export interface TextBlock {
-  type: "text"
-  text: string
-  bold?: boolean
-  italic?: boolean
-  underline?: boolean
-  strikethrough?: boolean
-  code?: boolean
+  type: "text";
+  text: string;
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  strikethrough?: boolean;
+  code?: boolean;
 }
 
 export interface ModifierBlock {
-  type: "bold" | "italic" | "underline" | "strikethrough" | "code"
-  children: Array<TextBlock | ModifierBlock>
+  type: "bold" | "italic" | "underline" | "strikethrough" | "code";
+  children: Array<TextBlock | ModifierBlock>;
 }
 
 export interface ListItemBlock {
-  type: "list-item"
-  children: Array<TextBlock | ModifierBlock>
+  type: "list-item";
+  children: Array<TextBlock | ModifierBlock>;
 }
 
 interface BlocksRendererProps {
-  content: BlocksContent
+  content: BlocksContent;
 }
 
 function renderText(
-  item: TextBlock | ModifierBlock | { type: string; children?: any[] }
+  item: TextBlock | ModifierBlock | { type: string; children?: any[] },
 ): React.ReactNode {
   if (item.type === "text") {
-    return item.text
+    return (item as TextBlock).text;
   }
 
-  const { children } = item as any
+  const { children } = item as any;
   const content = Array.isArray(children)
     ? children.map((child, idx) => (
         <React.Fragment key={idx}>{renderText(child)}</React.Fragment>
       ))
-    : null
+    : null;
 
   switch (item.type) {
     case "bold":
-      return <strong className="font-semibold">{content}</strong>
+      return <strong className="font-semibold">{content}</strong>;
     case "italic":
-      return <span className="italic">{content}</span>
+      return <span className="italic">{content}</span>;
     case "underline":
-      return <span className="underline">{content}</span>
+      return <span className="underline">{content}</span>;
     case "strikethrough":
-      return <span className="line-through">{content}</span>
+      return <span className="line-through">{content}</span>;
     case "code":
       return (
         <code className="bg-muted px-2 py-1 rounded text-sm font-mono text-foreground/80">
           {content}
         </code>
-      )
+      );
     default:
-      return content
+      return content;
   }
 }
 
@@ -106,7 +106,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
     ? block.children.map((child: any, idx: number) => (
         <React.Fragment key={idx}>{renderText(child)}</React.Fragment>
       ))
-    : null
+    : null;
 
   switch (block.type) {
     case "paragraph":
@@ -117,7 +117,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
         >
           {children}
         </p>
-      )
+      );
 
     case "heading":
       const headingClasses = {
@@ -127,10 +127,11 @@ function renderBlock(block: any, index: number): React.ReactNode {
         4: "text-xl font-light tracking-tight mb-4 mt-5",
         5: "text-lg font-light tracking-tight mb-3 mt-4",
         6: "text-base font-light tracking-widest mb-3 mt-4",
-      }
-      const HeadingTag = `h${block.level}` as const
+      };
+      const HeadingTag = `h${block.level}` as const;
+      const HeadingElement = HeadingTag as React.ElementType;
       return (
-        <HeadingTag
+        <HeadingElement
           key={index}
           className={
             headingClasses[block.level as keyof typeof headingClasses] ||
@@ -138,13 +139,16 @@ function renderBlock(block: any, index: number): React.ReactNode {
           }
         >
           {children}
-        </HeadingTag>
-      )
+        </HeadingElement>
+      );
 
     case "list":
       if (block.format === "ordered") {
         return (
-          <ol key={index} className="list-decimal list-inside space-y-2 mb-6 ml-4">
+          <ol
+            key={index}
+            className="list-decimal list-inside space-y-2 mb-6 ml-4"
+          >
             {block.children?.map((item: any, idx: number) => (
               <li key={idx} className="text-lg font-light text-foreground/70">
                 {item.children?.map((child: any, childIdx: number) => (
@@ -153,7 +157,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
               </li>
             ))}
           </ol>
-        )
+        );
       }
       return (
         <ul key={index} className="list-disc list-inside space-y-2 mb-6 ml-4">
@@ -165,7 +169,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
             </li>
           ))}
         </ul>
-      )
+      );
 
     case "quote":
       return (
@@ -175,7 +179,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
         >
           {children}
         </blockquote>
-      )
+      );
 
     case "code":
       return (
@@ -185,7 +189,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
         >
           <code className="text-foreground/80">{children}</code>
         </pre>
-      )
+      );
 
     case "image":
       return (
@@ -193,10 +197,11 @@ function renderBlock(block: any, index: number): React.ReactNode {
           <img
             src={block.image.url}
             alt={block.image.alternativeText || "Image"}
+            loading="lazy"
             className="w-full h-auto object-cover"
           />
         </div>
-      )
+      );
 
     case "link":
       return (
@@ -209,19 +214,17 @@ function renderBlock(block: any, index: number): React.ReactNode {
         >
           {children}
         </a>
-      )
+      );
 
     default:
-      return null
+      return null;
   }
 }
 
-export default function StrapiBlocksRenderer({
-  content,
-}: BlocksRendererProps) {
+export default function StrapiBlocksRenderer({ content }: BlocksRendererProps) {
   if (!content || !Array.isArray(content)) {
-    return null
+    return null;
   }
 
-  return <>{content.map((block, idx) => renderBlock(block, idx))}</>
+  return <>{content.map((block, idx) => renderBlock(block, idx))}</>;
 }

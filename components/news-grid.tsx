@@ -178,6 +178,7 @@ export default function NewsGrid() {
                     <img
                       src={article.image || "/placeholder.svg"}
                       alt={article.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />
                   </div>
@@ -247,6 +248,7 @@ export default function NewsGrid() {
                       <img
                         src={article.image || "/placeholder.svg"}
                         alt={article.title}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                       />
                     </div>

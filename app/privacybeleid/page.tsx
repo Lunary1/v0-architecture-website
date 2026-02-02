@@ -1,10 +1,20 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import type { Metadata } from "next";
 
-export const metadata = {
+const SITE_URL = "https://www.architect-kindt.be";
+
+export const metadata: Metadata = {
   title: "Privacybeleid | Architectenbureau Paul Kindt",
   description:
     "Lees ons privacybeleid voor informatie over gegevensbescherming bij Architectenbureau Paul Kindt.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: `${SITE_URL}/privacybeleid`,
+  },
 };
 
 export default function PrivacyBeleidPage() {
