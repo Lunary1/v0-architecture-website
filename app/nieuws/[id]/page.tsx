@@ -99,7 +99,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 {formatDate(article.date)}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-6">
               {article.title}
             </h1>
             <p className="text-base font-light text-muted-foreground">

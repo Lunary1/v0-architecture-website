@@ -106,9 +106,9 @@ export default function ProjectDetailClient({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            {/* Left Column - Title & Meta */}
+            {/* Left Column - Title */}
             <div>
-              <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-8">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-8">
                 {project.title}
               </h1>
               <div className="space-y-6 border-t border-border pt-6">

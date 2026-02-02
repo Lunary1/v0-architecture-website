@@ -43,37 +43,19 @@ export default function TeamSection() {
           </h2>
         </div>
 
-        {/* Featured Member - Full Width */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          <div className="bg-muted h-96 overflow-hidden rounded-sm">
-            <img
-              src={teamMembers[0].image || "/placeholder.svg"}
-              alt={teamMembers[0].name}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex flex-col justify-center">
-            <h3 className="text-2xl font-light mb-2">{teamMembers[0].name}</h3>
-            <p className="text-base font-light text-muted-foreground mb-6">
-              {teamMembers[0].role}
-            </p>
-            <p className="text-base font-light text-foreground/70 leading-relaxed">
-              {teamMembers[0].bio}
-            </p>
-          </div>
+        {/* Team Picture - Full Width */}
+        <div className="w-full bg-muted h-96 md:h-[500px] overflow-hidden rounded-sm mb-16">
+          <img
+            src="/placeholder.svg"
+            alt="Het team van Architectenbureau Paul Kindt"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Other Team Members - 2 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {teamMembers.slice(1).map((member) => (
+        {/* Team Members Grid - 3 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {teamMembers.map((member) => (
             <div key={member.id}>
-              <div className="bg-muted h-72 mb-6 overflow-hidden rounded-sm">
-                <img
-                  src={member.image || "/placeholder.svg"}
-                  alt={member.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
               <h3 className="text-lg font-light mb-1">{member.name}</h3>
               <p className="text-sm font-light text-muted-foreground mb-3">
                 {member.role}

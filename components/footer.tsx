@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react";
 import { contactInfo } from "@/lib/data";
 
 export default function Footer() {
@@ -13,99 +14,94 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Company Info */}
           <div>
+            <div className="w-12 h-px bg-primary-foreground/30 mb-4" />
             <h4 className="text-lg font-light tracking-widest mb-6">
               PAUL KINDT
             </h4>
             <p className="font-light opacity-70 text-sm leading-relaxed">
-              Modern architecture studio specializing in residential,
-              industrial, and interior design.
+              Architectenbureau gespecialiseerd in residentiële architectuur en
+              renovatie.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="border-l border-primary-foreground/10 pl-8">
             <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
               PAGINA'S
             </h4>
             <div className="space-y-3">
-              <Link
-                href="/"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
-              >
+              <Link href="/" className="footer-link">
                 Home
               </Link>
-              <Link
-                href="/projecten"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
-              >
+              <Link href="/projecten" className="footer-link">
                 Projecten
               </Link>
-              <Link
-                href="/over"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
-              >
+              <Link href="/over" className="footer-link">
                 Over Ons
               </Link>
-              <Link
-                href="/nieuws"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
-              >
+              <Link href="/nieuws" className="footer-link">
                 Nieuws
+              </Link>
+              <Link href="/contact" className="footer-link">
+                Contact
               </Link>
             </div>
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="border-l border-primary-foreground/10 pl-8">
             <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
               CONTACT
             </h4>
-            <div className="space-y-3 text-sm">
-              <p className="font-light opacity-70">
-                <a
-                  href={`tel:${formatPhoneLink(contactInfo.phone)}`}
-                  className="hover:opacity-100 transition"
-                >
-                  {contactInfo.phone}
-                </a>
-              </p>
-              <p className="font-light opacity-70">
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="hover:opacity-100 transition"
-                >
-                  {contactInfo.email}
-                </a>
-              </p>
-              <p className="font-light opacity-70">
-                {contactInfo.address}
-                <br />
-                {contactInfo.city}
-              </p>
+            <div className="space-y-4 text-sm">
+              <a
+                href={`tel:${formatPhoneLink(contactInfo.phone)}`}
+                className="flex items-start gap-3 font-light opacity-70 hover:opacity-100 transition group"
+              >
+                <Phone className="w-4 h-4 mt-0.5 shrink-0 group-hover:text-primary-foreground transition" />
+                <span>{contactInfo.phone}</span>
+              </a>
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="flex items-start gap-3 font-light opacity-70 hover:opacity-100 transition group"
+              >
+                <Mail className="w-4 h-4 mt-0.5 shrink-0 group-hover:text-primary-foreground transition" />
+                <span>{contactInfo.email}</span>
+              </a>
+              <div className="flex items-start gap-3 font-light opacity-70">
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+                <div>
+                  {contactInfo.address}
+                  <br />
+                  {contactInfo.city}
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Social Links */}
-          <div>
+          <div className="border-l border-primary-foreground/10 pl-8">
             <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
               VOLGEN
             </h4>
-            <div className="space-y-3">
+            <div className="flex gap-4">
               <a
                 href={contactInfo.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+                className="social-icon-button"
+                aria-label="Facebook"
               >
-                Facebook
+                <Facebook className="w-5 h-5" />
               </a>
               <a
                 href={contactInfo.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block font-light opacity-70 hover:opacity-100 transition text-sm"
+                className="social-icon-button"
+                aria-label="Instagram"
               >
-                Instagram
+                <Instagram className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -119,11 +115,8 @@ export default function Footer() {
               reserved.
             </p>
             <div className="flex gap-6">
-              <Link href="#" className="hover:opacity-100 transition">
-                Privacy Policy
-              </Link>
-              <Link href="#" className="hover:opacity-100 transition">
-                Terms of Service
+              <Link href="/privacybeleid" className="footer-link">
+                Privacybeleid
               </Link>
             </div>
           </div>

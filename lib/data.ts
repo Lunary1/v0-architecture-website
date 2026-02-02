@@ -5,7 +5,7 @@ export const contactInfo = {
   city: "9680 Maarkedal",
   country: "Belgium",
   phone: "+32 495 20 56 77",
-  email: "paul@architect-kindt.be",
+  email: "info@architect-kindt.be",
   btw: "BE 0898.764.386",
   hours: "09:00 - 17:00",
   website: "https://www.architect-kindt.be/",

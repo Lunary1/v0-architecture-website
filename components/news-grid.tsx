@@ -126,21 +126,23 @@ export default function NewsGrid() {
   };
 
   return (
-    <section className="pt-32 pb-24 px-6">
+    <section className="pt-36 md:pt-52 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-16">
-          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">
-            NIEUWS & PERS
-          </p>
-          <h1 className="text-5xl md:text-6xl font-light tracking-tight mb-8">
-            Blijf op de hoogte
-          </h1>
-          <p className="text-lg font-light text-muted-foreground max-w-2xl">
-            Ontdek het laatste nieuws, persberichten en projectaankondigingen
-            van Architectenbureau Paul Kindt.
-          </p>
+        {/* Title */}
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight mb-8 md:mb-12 text-center md:text-left">
+          Blijf op de hoogte
+        </h1>
+
+        {/* Decorative Divider */}
+        <div className="mb-12 md:mb-16 flex md:block justify-center">
+          <div className="w-12 h-px bg-primary/30"></div>
         </div>
+
+        {/* Description */}
+        <p className="text-base md:text-lg font-light text-muted-foreground mb-12 text-center md:text-left">
+          Ontdek het laatste nieuws, persberichten en projectaankondigingen van
+          Architectenbureau Paul Kindt.
+        </p>
 
         {/* Filter Categories */}
         <div className="mb-12 flex flex-wrap gap-3">

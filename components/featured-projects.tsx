@@ -9,7 +9,7 @@ export default async function FeaturedProjects() {
     .sort(
       (a, b) =>
         new Date(b.createdAt || 0).getTime() -
-        new Date(a.createdAt || 0).getTime()
+        new Date(a.createdAt || 0).getTime(),
     )
     .slice(0, 4);
 
@@ -41,7 +41,7 @@ export default async function FeaturedProjects() {
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-200 to-slate-300">
+                  <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-slate-200 to-slate-300">
                     <span className="text-sm text-slate-500">
                       No image available
                     </span>

@@ -39,7 +39,7 @@ export default function ImageLightbox({
           <Dialog.Title className="sr-only">Project Image Gallery</Dialog.Title>
           <div className="flex flex-col items-center justify-center h-full">
             {/* Close Button */}
-            <Dialog.Close className="absolute top-24 right-6 sm:top-4 sm:right-4 z-[60] text-white hover:opacity-70 transition">
+            <Dialog.Close className="absolute top-24 right-6 sm:top-4 sm:right-4 z-60 text-white hover:opacity-70 transition">
               <svg
                 width="24"
                 height="24"

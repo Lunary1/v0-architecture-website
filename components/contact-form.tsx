@@ -1,55 +1,48 @@
 "use client";
 
-import type React from "react";
-
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactFormSchema, type ContactFormData } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    projectType: "",
-    budget: "",
-    message: "",
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    setTimeout(() => {
-      setSubmitted(true);
-      setLoading(false);
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        phone: "",
-        projectType: "",
-        budget: "",
-        message: "",
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      setError(null);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-    }, 1000);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
+      setSubmitted(true);
+      reset();
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An error occurred";
+      setError(message);
+    }
   };
 
   return (
@@ -60,17 +53,24 @@ export default function ContactForm() {
         </h2>
 
         {submitted ? (
-          <div className="bg-secondary/50 border border-border p-8 rounded-sm">
-            <p className="text-lg font-light mb-2">
+          <div className="bg-green-50 border border-green-200 p-8 rounded-sm">
+            <p className="text-lg font-light mb-2 text-green-900">
               Dank u wel voor uw bericht!
             </p>
-            <p className="font-light text-muted-foreground">
+            <p className="font-light text-green-800">
               We zullen zo snel mogelijk contact met u opnemen. Wij stellen uw
               interesse in Architectenbureau Paul Kindt zeer op prijs.
             </p>
           </div>
+        ) : error ? (
+          <div className="bg-red-50 border border-red-200 p-8 rounded-sm">
+            <p className="text-lg font-light mb-2 text-red-900">
+              Fout bij verzending
+            </p>
+            <p className="font-light text-red-800">{error}</p>
+          </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Name */}
             <div>
               <label className="block text-sm font-light text-muted-foreground mb-2">
@@ -78,13 +78,17 @@ export default function ContactForm() {
               </label>
               <Input
                 type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                {...register("name")}
+                className={`w-full bg-background border ${
+                  errors.name ? "border-red-500" : "border-input"
+                } rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition`}
                 placeholder="Uw naam"
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             {/* Email */}
@@ -94,16 +98,21 @@ export default function ContactForm() {
               </label>
               <Input
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
+                {...register("email")}
+                className={`w-full bg-background border ${
+                  errors.email ? "border-red-500" : "border-input"
+                } rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition`}
                 placeholder="uw@email.com"
               />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Phone */}
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               {/* Phone */}
               <div>
                 <label className="block text-sm font-light text-muted-foreground mb-2">
@@ -111,9 +120,7 @@ export default function ContactForm() {
                 </label>
                 <Input
                   type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  {...register("phone")}
                   className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
                   placeholder="+32 470 12 34 56"
                 />
@@ -126,23 +133,27 @@ export default function ContactForm() {
                 Bericht *
               </label>
               <Textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition min-h-32 resize-none"
+                {...register("message")}
+                className={`w-full bg-background border ${
+                  errors.message ? "border-red-500" : "border-input"
+                } rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition min-h-32 resize-none`}
                 placeholder="Vertel ons over uw project..."
               />
+              {errors.message && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.message.message}
+                </p>
+              )}
             </div>
 
             {/* Submit Button */}
             <div className="pt-4">
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={isSubmitting}
                 className="w-full md:w-auto bg-primary text-primary-foreground px-12 py-3 font-light tracking-wide hover:bg-primary/90 transition disabled:opacity-50 rounded-sm"
               >
-                {loading ? "Verzenden..." : "Bericht versturen"}
+                {isSubmitting ? "Verzenden..." : "Bericht versturen"}
               </Button>
             </div>
 

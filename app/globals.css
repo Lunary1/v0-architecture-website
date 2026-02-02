@@ -124,3 +124,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .footer-link {
+    @apply block font-light opacity-70 hover:opacity-100 transition text-sm relative;
+
+    &::after {
+      content: '';
+      @apply absolute bottom-0 left-0 h-px bg-primary-foreground/0 transition-all duration-300 ease-out;
+      width: 0;
+    }
+
+    &:hover::after {
+      @apply bg-primary-foreground/50;
+      width: 100%;
+    }
+  }
+
+  .social-icon-button {
+    @apply w-10 h-10 rounded-full border border-primary-foreground/20 flex items-center justify-center opacity-70 transition-all duration-300 hover:opacity-100 hover:bg-primary-foreground/10 hover:border-primary-foreground/40;
+  }
+}

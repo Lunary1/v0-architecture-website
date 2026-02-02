@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="bg-background text-foreground">
+    <main className="bg-white text-black">
       <Navigation />
       <ContactHero />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-t border-border">
