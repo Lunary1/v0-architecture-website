@@ -1,4 +1,12 @@
-import { MapPin, Phone, Mail, Clock, Facebook } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Building2,
+  Share2,
+  Facebook,
+} from "lucide-react";
 import { contactInfo } from "@/lib/data";
 
 export default function ContactInfo() {
@@ -6,128 +14,97 @@ export default function ContactInfo() {
     return phone.replace(/\s+/g, "");
   };
 
-  return (
-    <section className="px-6 lg:px-12 py-16 lg:py-24 bg-secondary/30 border-r border-border">
-      <div className="max-w-lg mx-auto lg:mx-0">
-        <h2 className="text-2xl font-light tracking-tight mb-8">
-          Contact Informatie
-        </h2>
-
-        {/* Address */}
-        <div className="mb-10">
-          <div className="flex items-start gap-3 mb-3">
-            <MapPin className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-            <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
-                ADRES
-              </h3>
-              <p className="font-light text-foreground mb-1">
-                {contactInfo.name}
-              </p>
-              <p className="font-light text-muted-foreground text-sm leading-relaxed">
-                {contactInfo.address}
-                <br />
-                {contactInfo.city}
-                <br />
-                {contactInfo.country}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Details */}
-        <div className="mb-10">
-          <div className="flex items-start gap-3 mb-4">
-            <Phone className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-            <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
-                TELEFOON
-              </h3>
-              <p className="font-light text-foreground">
-                <a
-                  href={`tel:${formatPhoneLink(contactInfo.phone)}`}
-                  className="hover:text-muted-foreground transition"
-                >
-                  {contactInfo.phone}
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <Mail className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-            <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
-                E-MAIL
-              </h3>
-              <p className="font-light text-foreground">
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="hover:text-muted-foreground transition"
-                >
-                  {contactInfo.email}
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Office Hours */}
-        <div className="mb-10">
-          <div className="flex items-start gap-3">
-            <Clock className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-            <div>
-              <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-3">
-                KANTOORUREN
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between gap-8">
-                  <span className="font-light text-muted-foreground text-sm">
-                    Maandag - Vrijdag
-                  </span>
-                  <span className="font-light text-foreground text-sm">
-                    {contactInfo.hours}
-                  </span>
-                </div>
-                <div className="flex justify-between gap-8">
-                  <span className="font-light text-muted-foreground text-sm">
-                    Zaterdag & Zondag
-                  </span>
-                  <span className="font-light text-foreground text-sm">
-                    Gesloten
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* BTW Number */}
-        <div className="mb-10 pb-10 border-b border-border">
-          <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-2">
-            BTW-NUMMER
+  const InfoItem = ({
+    icon: Icon,
+    label,
+    children,
+  }: {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    children: React.ReactNode;
+  }) => (
+    <div className="pb-10 border-b border-border/50 last:border-b-0 last:pb-0">
+      <div className="flex items-start gap-3 mb-2">
+        <Icon className="w-5 h-5 text-muted-foreground/70 mt-0.5 shrink-0" />
+        <div className="flex-1">
+          <h3 className="text-sm font-light tracking-widest text-muted-foreground/50 mb-2">
+            {label}
           </h3>
-          <p className="font-light text-foreground">{contactInfo.btw}</p>
-        </div>
-
-        {/* Social Links */}
-        <div className="pt-6">
-          <h3 className="text-sm font-light tracking-widest text-muted-foreground mb-4">
-            VOLG ONS
-          </h3>
-          <div className="flex gap-4">
-            <a
-              href={contactInfo.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-foreground hover:text-muted-foreground transition group"
-            >
-              <Facebook className="w-5 h-5" />
-              <span className="text-sm font-light">Facebook</span>
-            </a>
-          </div>
+          <div className="font-light text-foreground/90">{children}</div>
         </div>
       </div>
-    </section>
+    </div>
+  );
+
+  return (
+    <div className="md:pr-12 py-0">
+      <div className="mb-8">
+        <h3 className="text-sm font-light tracking-widest text-muted-foreground/50">
+          CONTACT
+        </h3>
+      </div>
+      <div className="space-y-0">
+        <InfoItem icon={MapPin} label="ADRES">
+          <div className="space-y-1">
+            <p>{contactInfo.name}</p>
+            <p className="text-sm text-muted-foreground">
+              {contactInfo.address}
+              <br />
+              {contactInfo.city}
+              <br />
+              {contactInfo.country}
+            </p>
+          </div>
+        </InfoItem>
+
+        <InfoItem icon={Phone} label="TELEFOON">
+          <a
+            href={`tel:${formatPhoneLink(contactInfo.phone)}`}
+            className="opacity-80 hover:opacity-100 transition"
+          >
+            {contactInfo.phone}
+          </a>
+        </InfoItem>
+
+        <InfoItem icon={Mail} label="E-MAIL">
+          <a
+            href={`mailto:${contactInfo.email}`}
+            className="opacity-80 hover:opacity-100 transition"
+          >
+            {contactInfo.email}
+          </a>
+        </InfoItem>
+
+        <InfoItem icon={Clock} label="KANTOORUREN">
+          <div className="space-y-2">
+            <div className="flex justify-between gap-8">
+              <span className="text-sm text-muted-foreground">
+                Maandag - Vrijdag
+              </span>
+              <span className="text-sm">{contactInfo.hours}</span>
+            </div>
+            <div className="flex justify-between gap-8">
+              <span className="text-sm text-muted-foreground">
+                Zaterdag & Zondag
+              </span>
+              <span className="text-sm">Gesloten</span>
+            </div>
+          </div>
+        </InfoItem>
+
+        <InfoItem icon={Building2} label="BTW-NUMMER">
+          <p>{contactInfo.btw}</p>
+        </InfoItem>
+
+        <InfoItem icon={Share2} label="VOLG ONS">
+          <a
+            href={contactInfo.social.facebook}
+            className="opacity-80 hover:opacity-100 transition"
+          >
+            Facebook
+          </a>
+        </InfoItem>
+      </div>
+    </div>
   );
 }

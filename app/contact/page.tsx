@@ -16,10 +16,14 @@ export default function ContactPage() {
     <main className="bg-white text-black">
       <Navigation />
       <ContactHero />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border-t border-border">
-        <ContactInfo />
-        <ContactForm />
-      </div>
+      <section className="py-24 px-6 bg-secondary/50 border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 md:divide-x divide-border">
+            <ContactInfo />
+            <ContactForm />
+          </div>
+        </div>
+      </section>
       <ContactMap />
       <Footer />
     </main>

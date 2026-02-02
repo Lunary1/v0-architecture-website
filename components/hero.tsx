@@ -36,7 +36,7 @@ export default async function Hero() {
           Residentieel · Industrieel · Interieur
         </h1>
         <p className="text-lg font-light opacity-80 mb-12">
-          Modern design. Timeless quality. Sustainable solutions.
+          Doordachte architectuur op maat van mens en omgeving.
         </p>
       </div>
 

@@ -46,9 +46,9 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="px-6 lg:px-12 py-16 lg:py-24 bg-background">
-      <div className="max-w-lg mx-auto lg:mx-0">
-        <h2 className="text-2xl font-light tracking-tight mb-8">
+    <div className="md:pl-12 py-0">
+      <div>
+        <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-8 text-muted-foreground/90">
           Stuur ons een bericht
         </h2>
 
@@ -165,6 +165,6 @@ export default function ContactForm() {
           </form>
         )}
       </div>
-    </section>
+    </div>
   );
 }
