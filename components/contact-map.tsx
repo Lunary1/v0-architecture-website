@@ -26,7 +26,7 @@ export default function ContactMap() {
       {/* Location marker overlay */}
       <div className="absolute bottom-8 left-8 bg-background/95 backdrop-blur-sm border border-border p-4 max-w-xs">
         <div className="flex items-start gap-3">
-          <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+          <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
           <div>
             <p className="font-light text-foreground text-sm mb-1">
               {contactInfo.name}

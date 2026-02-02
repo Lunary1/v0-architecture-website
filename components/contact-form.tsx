@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactFormSchema, type ContactFormData } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Script from "next/script";
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formSubmitTime, setFormSubmitTime] = useState<number | null>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -21,13 +24,50 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
+  // Load reCAPTCHA script
+  useEffect(() => {
+    if (typeof window !== "undefined" && !(window as any).grecaptcha) {
+      const script = document.createElement("script");
+      script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const onSubmit = async (data: ContactFormData) => {
+    // Prevent rapid resubmission (min 2 seconds between submissions)
+    if (formSubmitTime && Date.now() - formSubmitTime < 2000) {
+      setError("Gelieve even te wachten voordat u opnieuw verstuurt.");
+      return;
+    }
+
     try {
       setError(null);
+
+      // Get reCAPTCHA token (v3 for invisible verification)
+      let captchaToken = "";
+      if (typeof window !== "undefined" && (window as any).grecaptcha) {
+        try {
+          captchaToken = await (window as any).grecaptcha.execute(
+            process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "",
+            { action: "submit" },
+          );
+        } catch (err) {
+          console.warn(
+            "reCAPTCHA token generation failed, continuing without it",
+          );
+        }
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          captchaToken,
+          honeypot: honeypotRef.current?.value || "",
+        }),
       });
 
       if (!response.ok) {
@@ -37,6 +77,7 @@ export default function ContactForm() {
 
       setSubmitted(true);
       reset();
+      setFormSubmitTime(Date.now());
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
@@ -51,6 +92,12 @@ export default function ContactForm() {
         <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-8 text-muted-foreground/90">
           Stuur ons een bericht
         </h2>
+
+        {/* reCAPTCHA v3 Script */}
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="afterInteractive"
+        />
 
         {submitted ? (
           <div className="bg-green-50 border border-green-200 p-8 rounded-sm">
@@ -71,6 +118,17 @@ export default function ContactForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Honeypot Field (hidden from users) */}
+            <input
+              ref={honeypotRef}
+              type="text"
+              id="website"
+              style={{ display: "none" }}
+              autoComplete="off"
+              tabIndex={-1}
+              aria-hidden="true"
+            />
+
             {/* Name */}
             <div>
               <label className="block text-sm font-light text-muted-foreground mb-2">
@@ -160,7 +218,25 @@ export default function ContactForm() {
             {/* Note */}
             <p className="text-xs font-light text-muted-foreground pt-2">
               * Verplichte velden. We behandelen uw gegevens vertrouwelijk
-              conform ons privacybeleid.
+              conform ons privacybeleid. Deze site is beveiligd met reCAPTCHA en{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-muted-foreground/80"
+              >
+                Google Privacy Policy
+              </a>{" "}
+              en{" "}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-muted-foreground/80"
+              >
+                Terms of Service
+              </a>{" "}
+              van toepassing.
             </p>
           </form>
         )}
