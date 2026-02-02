@@ -117,6 +117,16 @@
 }
 
 @layer base {
+  /* Hide scrollbar across all browsers */
+  html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -130,7 +140,7 @@
     @apply block font-light opacity-70 hover:opacity-100 transition text-sm relative;
 
     &::after {
-      content: '';
+      content: "";
       @apply absolute bottom-0 left-0 h-px bg-primary-foreground/0 transition-all duration-300 ease-out;
       width: 0;
     }
