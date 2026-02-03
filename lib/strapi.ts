@@ -227,6 +227,19 @@ export async function fetchProjectByDocumentId(
   }
 }
 
+export async function fetchProjectBySlug(
+  slug: string,
+): Promise<Project | null> {
+  try {
+    const { slugify } = await import("./utils");
+    const projects = await fetchProjects();
+    return projects.find((p) => slugify(p.title) === slug) || null;
+  } catch (error) {
+    console.error("Error fetching project by slug:", error);
+    return null;
+  }
+}
+
 export async function fetchCategories(): Promise<Category[]> {
   try {
     const response = await fetch(`${STRAPI_URL}/categories`, {
@@ -306,6 +319,19 @@ export async function fetchNewsByDocumentId(
     return articles.find((a) => a.documentId === documentId) || null;
   } catch (error) {
     console.error("Error fetching news article by documentId:", error);
+    return null;
+  }
+}
+
+export async function fetchNewsBySlug(
+  slug: string,
+): Promise<NewsArticle | null> {
+  try {
+    const { slugify } = await import("./utils");
+    const articles = await fetchNewsArticles();
+    return articles.find((a) => slugify(a.title) === slug) || null;
+  } catch (error) {
+    console.error("Error fetching news article by slug:", error);
     return null;
   }
 }

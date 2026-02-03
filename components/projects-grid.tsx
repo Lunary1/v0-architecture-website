@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { Project, Category } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -111,7 +112,7 @@ export default function ProjectsGrid({
             {filteredProjects.map((project) => (
               <Link
                 key={project.documentId}
-                href={`/projecten/${project.documentId}`}
+                href={`/projecten/${slugify(project.title)}`}
                 className="group cursor-pointer"
               >
                 <div className="relative h-56 md:h-80 overflow-hidden bg-muted mb-4">

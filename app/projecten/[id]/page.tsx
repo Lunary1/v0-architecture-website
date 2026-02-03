@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import { fetchProjects, fetchProjectByDocumentId } from "@/lib/strapi";
+import { fetchProjects, fetchProjectBySlug } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 import {
   generateProjectSchema,
   generateBreadcrumbSchema,
@@ -21,7 +22,7 @@ interface ProjectDetailPageProps {
 export async function generateStaticParams() {
   const projects = await fetchProjects();
   return projects.map((project) => ({
-    id: project.documentId,
+    id: slugify(project.title),
   }));
 }
 
@@ -29,7 +30,7 @@ export async function generateMetadata({
   params,
 }: ProjectDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = await fetchProjectByDocumentId(id);
+  const project = await fetchProjectBySlug(id);
 
   if (!project) {
     return {
@@ -38,7 +39,7 @@ export async function generateMetadata({
     };
   }
 
-  const projectUrl = `${SITE_URL}/projecten/${project.documentId}`;
+  const projectUrl = `${SITE_URL}/projecten/${id}`;
   const imageUrl =
     project.thumbnail || project.imageUrl || `${SITE_URL}/og-image.png`;
 
@@ -97,7 +98,7 @@ export default async function ProjectDetailPage({
 }: ProjectDetailPageProps) {
   const { id } = await params;
   const [project, allProjects] = await Promise.all([
-    fetchProjectByDocumentId(id),
+    fetchProjectBySlug(id),
     fetchProjects(),
   ]);
 
@@ -144,7 +145,7 @@ export default async function ProjectDetailPage({
   const breadcrumbSchema = generateBreadcrumbSchema([
     { label: "Home", url: "/" },
     { label: "Projecten", url: "/projecten" },
-    { label: project.title, url: `/projecten/${project.documentId}` },
+    { label: project.title, url: `/projecten/${id}` },
   ]);
 
   const combinedSchemas = combineSchemas([projectSchema, breadcrumbSchema]);

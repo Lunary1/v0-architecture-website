@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchProjects } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 
 export default async function FeaturedProjects() {
   const projects = await fetchProjects();
@@ -30,7 +31,7 @@ export default async function FeaturedProjects() {
           {featuredProjects.map((project) => (
             <Link
               key={project.documentId}
-              href={`/projecten/${project.documentId}`}
+              href={`/projecten/${slugify(project.title)}`}
               className="group cursor-pointer"
             >
               <div className="relative h-96 md:h-80 overflow-hidden bg-muted mb-4">

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { NewsArticle } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 
 export default function NewsGrid() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
@@ -121,7 +122,7 @@ export default function NewsGrid() {
               {featuredArticles.map((article) => (
                 <Link
                   key={article.documentId}
-                  href={`/nieuws/${article.documentId}`}
+                  href={`/nieuws/${slugify(article.title)}`}
                   className="group cursor-pointer"
                 >
                   {/* Image with consistent aspect ratio */}
@@ -179,7 +180,7 @@ export default function NewsGrid() {
               {restArticles.map((article) => (
                 <Link
                   key={article.documentId}
-                  href={`/nieuws/${article.documentId}`}
+                  href={`/nieuws/${slugify(article.title)}`}
                   className="group cursor-pointer block"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pb-8 border-b border-border hover:opacity-60 transition">

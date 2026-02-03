@@ -7,6 +7,7 @@ import StrapiBlocksRenderer, {
 } from "@/components/blocks-renderer";
 import ImageLightbox from "@/components/image-lightbox";
 import { Project } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 
 interface ProjectDetailClientProps {
   project: Project;
@@ -205,7 +206,7 @@ export default function ProjectDetailClient({
               relatedProjects.map((relatedProject) => (
                 <Link
                   key={relatedProject.documentId}
-                  href={`/projecten/${relatedProject.documentId}`}
+                  href={`/projecten/${slugify(relatedProject.title)}`}
                   className="group cursor-pointer"
                 >
                   <div className="relative h-72 bg-muted mb-4 overflow-hidden rounded-sm">

@@ -6,7 +6,8 @@ import {
   generateBreadcrumbSchema,
   combineSchemas,
 } from "@/lib/schema";
-import { fetchNewsArticles, fetchNewsByDocumentId } from "@/lib/strapi";
+import { fetchNewsArticles, fetchNewsBySlug } from "@/lib/strapi";
+import { slugify } from "@/lib/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
   try {
     const articles = await fetchNewsArticles();
     return articles.map((article) => ({
-      id: article.documentId,
+      id: slugify(article.title),
     }));
   } catch (error) {
     console.error("Error generating static params for news:", error);
@@ -34,7 +35,7 @@ export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const article = await fetchNewsByDocumentId(id);
+  const article = await fetchNewsBySlug(id);
 
   if (!article) {
     return {
@@ -84,7 +85,7 @@ export async function generateMetadata({
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { id } = await params;
   const [article, allArticles] = await Promise.all([
-    fetchNewsByDocumentId(id),
+    fetchNewsBySlug(id),
     fetchNewsArticles(),
   ]);
 
@@ -277,7 +278,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                 {relatedArticles.map((related) => (
                   <Link
                     key={related.documentId}
-                    href={`/nieuws/${related.documentId}`}
+                    href={`/nieuws/${slugify(related.title)}`}
                     className="group"
                   >
                     {/* Image */}
