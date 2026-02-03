@@ -34,12 +34,17 @@ export default function NewsGrid() {
     loadNews();
   }, []);
 
-  const filteredNews =
+  const filteredNews = (
     activeCategory === "Alle Nieuws"
       ? articles
       : articles.filter((article) =>
           article.categories.includes(activeCategory),
-        );
+        )
+  ).sort(
+    (a, b) =>
+      new Date(b.publishedAt || b.date).getTime() -
+      new Date(a.publishedAt || a.date).getTime(),
+  );
 
   // Show up to 2 featured articles, rest below
   const featuredArticles = filteredNews.slice(0, 2);
