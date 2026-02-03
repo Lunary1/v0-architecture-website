@@ -1,10 +1,12 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import StrapiBlocksRenderer from "@/components/blocks-renderer";
 import {
   generateBlogPostingSchema,
   generateBreadcrumbSchema,
   combineSchemas,
 } from "@/lib/schema";
+import { fetchNewsArticles, fetchNewsByDocumentId } from "@/lib/strapi";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -14,47 +16,25 @@ interface NewsDetailPageProps {
 
 const SITE_URL = "https://www.architect-kindt.be";
 
-const newsArticles: Record<
-  string,
-  {
-    title: string;
-    date: string;
-    category: string;
-    author: string;
-    content: string;
-    image: string;
-    description?: string;
+export const revalidate = 3600; // ISR: revalidate every hour
+
+export async function generateStaticParams() {
+  try {
+    const articles = await fetchNewsArticles();
+    return articles.map((article) => ({
+      id: article.documentId,
+    }));
+  } catch (error) {
+    console.error("Error generating static params for news:", error);
+    return [];
   }
-> = {
-  "news-01": {
-    title: "Architectenbureau Paul Kindt Wint Internationaal Design Award",
-    date: "2024-11-15",
-    category: "Awards",
-    author: "Marketing Team",
-    description:
-      "Ons engagement voor duurzame architectuur is erkend met de prestigieuze International Design Excellence Award.",
-    content:
-      "Our commitment to sustainable architecture has been recognized with the prestigious International Design Excellence Award. This honor reflects our dedication to creating spaces that are not only beautiful but also environmentally responsible.\n\nThe award was presented at the International Architecture Summit in Berlin, where our founder presented our latest sustainable design initiatives to a global audience of architects and designers.\n\nThis recognition validates our approach to integrating environmental consciousness with innovative design principles. We believe that great architecture should enhance both human experience and environmental stewardship.\n\nLooking forward, we are committed to pushing the boundaries of sustainable design and inspiring other studios to adopt similar practices.",
-    image: "/award-ceremony.jpg",
-  },
-  "news-02": {
-    title: "Nieuw Residentieel Project in Amsterdam Officieel Geopend",
-    date: "2024-11-10",
-    category: "Projects",
-    author: "Project Team",
-    description:
-      "Het Minimalist Villa project in Amsterdam is officieel geopend voor bewoners met innovatieve duurzame woonoplossingen.",
-    content:
-      "The Minimalist Villa project in Amsterdam has officially opened its doors to residents. This innovative residential complex showcases our commitment to modern design and sustainable living solutions.\n\nThe project features cutting-edge sustainable technology, including solar panels, rainwater harvesting systems, and energy-efficient HVAC systems. Each residence is designed with open floor plans that maximize natural light and create seamless indoor-outdoor living spaces.\n\nResidents have praised the thoughtful design and high-quality finishes. The project includes shared community spaces that foster connection and collaboration among residents.\n\nThis successful completion demonstrates our ability to deliver complex residential projects on time and within budget, while exceeding sustainability standards.",
-    image: "/residential-opening.jpg",
-  },
-};
+}
 
 export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const article = newsArticles[id];
+  const article = await fetchNewsByDocumentId(id);
 
   if (!article) {
     return {
@@ -64,21 +44,13 @@ export async function generateMetadata({
   }
 
   const articleUrl = `${SITE_URL}/nieuws/${id}`;
-  const imageUrl = article.image || `${SITE_URL}/og-image.png`;
-  const description =
-    article.description ||
-    article.content.substring(0, 160).replace(/\n/g, " ");
+  const imageUrl = article.thumbnail || `${SITE_URL}/og-image.png`;
+  const description = article.description.substring(0, 160).replace(/\n/g, " ");
 
   return {
     title: `${article.title} | Architectenbureau Paul Kindt`,
     description,
-    keywords: [article.title, article.category, "architectuur", "nieuws"],
-    authors: [
-      {
-        name: article.author,
-        url: SITE_URL,
-      },
-    ],
+    keywords: [article.title, ...article.categories, "architectuur", "nieuws"],
     openGraph: {
       type: "article",
       url: articleUrl,
@@ -87,8 +59,7 @@ export async function generateMetadata({
       siteName: "Architectenbureau Paul Kindt",
       locale: "nl_NL",
       publishedTime: article.date,
-      authors: [article.author],
-      tags: [article.category],
+      tags: article.categories,
       images: [
         {
           url: imageUrl,
@@ -112,7 +83,10 @@ export async function generateMetadata({
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { id } = await params;
-  const article = newsArticles[id];
+  const [article, allArticles] = await Promise.all([
+    fetchNewsByDocumentId(id),
+    fetchNewsArticles(),
+  ]);
 
   if (!article) {
     return (
@@ -134,6 +108,15 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     );
   }
 
+  // Find related articles in the same category, excluding current article
+  const relatedArticles = allArticles
+    .filter(
+      (a) =>
+        a.documentId !== article.documentId &&
+        a.categories.some((cat) => article.categories.includes(cat)),
+    )
+    .slice(0, 3);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("nl-NL", {
@@ -146,10 +129,10 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   // Generate JSON-LD schemas for this article
   const blogPostingSchema = generateBlogPostingSchema({
     title: article.title,
-    description: article.description || article.content.substring(0, 160),
-    content: article.content,
-    image: article.image,
-    author: article.author,
+    description: article.description.substring(0, 160),
+    content: article.description,
+    image: article.thumbnail || "",
+    author: "Architectenbureau Paul Kindt",
     datePublished: article.date,
     slug: id,
   });
@@ -172,77 +155,173 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         dangerouslySetInnerHTML={{ __html: combinedSchemas }}
       />
 
-      <article className="pt-32 pb-24 px-6">
-        <div className="max-w-3xl mx-auto">
-          {/* Back Link */}
-          <Link
-            href="/nieuws"
-            className="text-sm font-light tracking-widest hover:opacity-60 transition mb-12 inline-block"
-          >
-            ← TERUG NAAR NIEUWS
-          </Link>
-
-          {/* Article Header */}
+      <section className="pt-44 md:pt-50 pb-24 px-6">
+        <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-xs font-light tracking-widest text-muted-foreground">
-                {article.category}
-              </span>
-              <span className="text-xs font-light text-muted-foreground">
-                {formatDate(article.date)}
-              </span>
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight mb-6">
-              {article.title}
-            </h1>
-            <p className="text-base font-light text-muted-foreground">
-              By {article.author}
-            </p>
+            <Link
+              href="/nieuws"
+              className="text-sm font-light tracking-widest hover:opacity-60 transition mb-8 inline-block"
+            >
+              ← TERUG NAAR NIEUWS
+            </Link>
           </div>
 
-          {/* Featured Image */}
-          <div className="relative h-96 md:h-[500px] bg-muted mb-16 overflow-hidden">
-            <img
-              src={article.image || "/placeholder.svg"}
-              alt={article.title}
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          {/* 4-Column Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-32">
+            {/* Left Column: Metadata & Sidebar */}
+            <div className="lg:col-span-1">
+              {/* Title */}
+              <h1 className="text-2xl lg:text-3xl font-light tracking-tight mb-8 leading-tight">
+                {article.title}
+              </h1>
 
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            {article.content.split("\n\n").map((paragraph, index) => (
-              <p
-                key={index}
-                className="text-lg font-light text-foreground/70 leading-relaxed mb-8"
-              >
-                {paragraph}
-              </p>
-            ))}
-          </div>
+              {/* Decorative Line */}
+              <div className="w-12 h-px bg-foreground/20 mb-8"></div>
 
-          {/* Article Footer */}
-          <div className="mt-16 pt-12 border-t border-border">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Link
-                href="/nieuws"
-                className="text-sm font-light tracking-widest hover:opacity-60 transition"
-              >
-                ← Meer nieuws
-              </Link>
-              <div className="text-right">
-                <Link
-                  href="/contact"
-                  className="text-sm font-light tracking-widest hover:opacity-60 transition"
-                >
-                  Neem contact op →
-                </Link>
+              {/* Meta Info */}
+              <div className="space-y-8">
+                {/* Publication Date */}
+                <div>
+                  <p className="text-xs font-light tracking-widest text-muted-foreground mb-2">
+                    GEPUBLICEERD
+                  </p>
+                  <p className="text-sm font-light text-foreground/80">
+                    {formatDate(article.date)}
+                  </p>
+                </div>
+
+                {/* Categories */}
+                {article.categories.length > 0 && (
+                  <div>
+                    <p className="text-xs font-light tracking-widest text-muted-foreground mb-3">
+                      CATEGORIËN
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {article.categories.map((cat, idx) => (
+                        <Link
+                          key={`${cat}-${idx}`}
+                          href={`/nieuws?category=${encodeURIComponent(cat)}`}
+                          className="inline-flex items-center px-3 py-1.5 bg-secondary hover:bg-secondary/80 transition text-xs font-light tracking-wide text-foreground rounded"
+                        >
+                          {cat}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
+
+            {/* Right Column: Content (3 columns) */}
+            <div className="lg:col-span-3 space-y-12">
+              {/* Featured Image */}
+              {article.thumbnail && (
+                <div className="relative w-full aspect-video bg-muted overflow-hidden rounded-sm">
+                  <img
+                    src={article.thumbnail}
+                    alt={article.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+
+              {/* Article Content */}
+              <div className="prose-custom space-y-6">
+                {article.descriptionBlocks &&
+                article.descriptionBlocks.length > 0 ? (
+                  <StrapiBlocksRenderer
+                    content={article.descriptionBlocks as any}
+                  />
+                ) : (
+                  article.description.split("\n\n").map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="text-base lg:text-lg font-light text-foreground/70 leading-relaxed"
+                    >
+                      {paragraph}
+                    </p>
+                  ))
+                )}
+              </div>
+
+              {/* External Link CTA - Option 2 */}
+              {article.link && (
+                <div className="mt-12 pt-8 border-t border-border">
+                  <p className="text-sm font-light text-muted-foreground mb-4 tracking-wide">
+                    Wil je het volledige artikel lezen?
+                  </p>
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-light tracking-wide hover:opacity-80 transition rounded"
+                  >
+                    Link naar volledige artikel
+                    <span>→</span>
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* Related Articles Section */}
+          {relatedArticles.length > 0 && (
+            <section className="border-t border-border pt-24">
+              <h2 className="text-4xl lg:text-5xl font-light tracking-tight mb-3">
+                Andere {article.categories[0]}
+              </h2>
+              <div className="w-12 h-px bg-foreground/20 mb-12"></div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                {relatedArticles.map((related) => (
+                  <Link
+                    key={related.documentId}
+                    href={`/nieuws/${related.documentId}`}
+                    className="group"
+                  >
+                    {/* Image */}
+                    <div className="relative h-72 bg-muted overflow-hidden rounded-sm mb-6">
+                      {related.thumbnail && (
+                        <img
+                          src={related.thumbnail}
+                          alt={related.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                        />
+                      )}
+                    </div>
+
+                    {/* Category Tags */}
+                    {related.categories.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {related.categories.slice(0, 2).map((cat, idx) => (
+                          <span
+                            key={`${cat}-${idx}`}
+                            className="text-xs font-light tracking-widest text-muted-foreground bg-secondary px-2.5 py-1 rounded"
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Title */}
+                    <h3 className="text-lg font-light group-hover:opacity-60 transition mb-3 line-clamp-2">
+                      {related.title}
+                    </h3>
+
+                    {/* Date */}
+                    <p className="text-xs font-light text-muted-foreground">
+                      {formatDate(related.date)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
-      </article>
+      </section>
 
       <Footer />
     </main>

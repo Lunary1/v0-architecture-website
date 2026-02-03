@@ -1,31 +1,37 @@
-"use client"
+"use client";
 
-import { testimonials } from "@/lib/data"
-import { useState, useEffect } from "react"
+import { testimonials } from "@/lib/data";
+import { useState, useEffect } from "react";
 
 export default function TestimonialsSection() {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 8000)
-    return () => clearInterval(timer)
-  }, [])
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="py-24 px-6 bg-secondary">
       <div className="max-w-4xl mx-auto">
         <div className="mb-16 text-center">
-          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">KLANTGETUIGENISSEN</p>
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight">Wat onze klanten zeggen</h2>
+          <p className="text-sm font-light tracking-widest text-muted-foreground mb-4">
+            KLANTGETUIGENISSEN
+          </p>
+          <h2 className="text-4xl md:text-5xl font-light tracking-tight">
+            Wat onze klanten zeggen
+          </h2>
         </div>
 
         {/* Testimonials Carousel */}
         <div className="relative">
-          <div className="bg-card p-12 md:p-16 rounded-lg border border-border">
+          <div className="bg-card p-12 md:p-16 rounded-md border border-border">
             <div className="mb-8">
-              <p className="text-xl md:text-2xl font-light leading-relaxed">"{testimonials[currentIndex].quote}"</p>
+              <p className="text-xl md:text-2xl font-light leading-relaxed">
+                "{testimonials[currentIndex].quote}"
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <img
@@ -34,8 +40,12 @@ export default function TestimonialsSection() {
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div>
-                <p className="font-light text-base">{testimonials[currentIndex].name}</p>
-                <p className="text-sm font-light text-muted-foreground">{testimonials[currentIndex].role}</p>
+                <p className="font-light text-base">
+                  {testimonials[currentIndex].name}
+                </p>
+                <p className="text-sm font-light text-muted-foreground">
+                  {testimonials[currentIndex].role}
+                </p>
               </div>
             </div>
           </div>
@@ -54,5 +64,5 @@ export default function TestimonialsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

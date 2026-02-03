@@ -87,6 +87,63 @@ export interface Category {
   name: string;
 }
 
+interface StrapiNewsCategory {
+  id: number;
+  documentId: string;
+  Title: string;
+}
+
+interface StrapiNewsArticle {
+  id: number;
+  documentId: string;
+  Title: string;
+  Release_date: string;
+  Link: string;
+  Description: string;
+  descriptionBlocks?: Array<{
+    type: string;
+    children: Array<{
+      text: string;
+      type: string;
+    }>;
+  }>;
+  Thumbnail: {
+    id: number;
+    documentId: string;
+    url: string;
+    formats: {
+      large?: { url: string };
+      medium?: { url: string };
+      small?: { url: string };
+      thumbnail?: { url: string };
+    };
+  };
+  newscategories: StrapiNewsCategory[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface NewsArticle {
+  documentId: string;
+  id: number;
+  title: string;
+  date: string;
+  link: string;
+  description: string;
+  descriptionBlocks?: Array<{
+    type: string;
+    children: Array<{
+      text: string;
+      type: string;
+    }>;
+  }>;
+  categories: string[];
+  thumbnail: string | null;
+  createdAt?: string;
+  publishedAt?: string;
+}
+
 function extractYearFromDate(dateString: string): number {
   return new Date(dateString).getFullYear();
 }
@@ -128,7 +185,7 @@ export async function fetchProjects(): Promise<Project[]> {
       // Extract all images sorted by filename descending (0 -> 1 -> 2 -> 3)
       const imageUrls = (project.Pictures || [])
         .sort((a, b) =>
-          b.name.localeCompare(a.name, undefined, { numeric: true })
+          b.name.localeCompare(a.name, undefined, { numeric: true }),
         )
         .map((pic) => pic.formats?.large?.url || pic.url)
         .filter(Boolean) as string[];
@@ -159,7 +216,7 @@ export async function fetchProjects(): Promise<Project[]> {
 }
 
 export async function fetchProjectByDocumentId(
-  documentId: string
+  documentId: string,
 ): Promise<Project | null> {
   try {
     const projects = await fetchProjects();
@@ -188,10 +245,67 @@ export async function fetchCategories(): Promise<Category[]> {
         id: category.id,
         documentId: category.documentId,
         name: category.Name,
-      })
+      }),
     );
   } catch (error) {
     console.error("Error fetching categories from Strapi:", error);
     return [];
+  }
+}
+
+export async function fetchNewsArticles(): Promise<NewsArticle[]> {
+  try {
+    // Sort by publishedAt in descending order (latest first)
+    const response = await fetch(
+      `${STRAPI_URL}/newsarticles?populate=*&sort=publishedAt:desc`,
+      {
+        next: { revalidate: 3600 }, // ISR: revalidate every hour
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Strapi error response:", errorText);
+      throw new Error(`Strapi API returned ${response.status}`);
+    }
+
+    const data = await response.json();
+    const articles = data.data || [];
+
+    return articles.map((article: StrapiNewsArticle): NewsArticle => {
+      const thumbnail =
+        article.Thumbnail?.formats?.medium?.url ||
+        article.Thumbnail?.formats?.large?.url ||
+        article.Thumbnail?.url ||
+        null;
+
+      return {
+        documentId: article.documentId,
+        id: article.id,
+        title: article.Title,
+        date: article.Release_date,
+        link: article.Link,
+        description: article.Description,
+        descriptionBlocks: article.descriptionBlocks,
+        categories: article.newscategories?.map((c) => c.Name) || [],
+        thumbnail,
+        publishedAt: article.publishedAt,
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching news articles from Strapi:", error);
+    return [];
+  }
+}
+
+export async function fetchNewsByDocumentId(
+  documentId: string,
+): Promise<NewsArticle | null> {
+  try {
+    const articles = await fetchNewsArticles();
+    return articles.find((a) => a.documentId === documentId) || null;
+  } catch (error) {
+    console.error("Error fetching news article by documentId:", error);
+    return null;
   }
 }

@@ -1,120 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
-interface NewsArticle {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  date: string;
-  image: string;
-  featured: boolean;
-  author: string;
-}
-
-const newsArticles: NewsArticle[] = [
-  {
-    id: "news-01",
-    title: "Studio Architecten Wint Internationaal Design Award",
-    excerpt:
-      "Onze innovatieve aanpak van duurzaam design erkend op het internationale podium.",
-    content:
-      "Our commitment to sustainable architecture has been recognized with the prestigious International Design Excellence Award. This honor reflects our dedication to creating spaces that are not only beautiful but also environmentally responsible.",
-    category: "Awards",
-    date: "2024-11-15",
-    image: "/placeholder.svg?key=award01",
-    featured: true,
-    author: "Marketing Team",
-  },
-  {
-    id: "news-02",
-    title: "Nieu Residentieelproject in Amsterdam Officieel Geopend",
-    excerpt:
-      "De Minimalist Villa project is nu officieel voor bewoners opengesteld.",
-    content:
-      "The Minimalist Villa project in Amsterdam has officially opened its doors to residents. This innovative residential complex showcases our commitment to modern design and sustainable living solutions.",
-    category: "Projects",
-    date: "2024-11-10",
-    image: "/placeholder.svg?key=villa01",
-    featured: true,
-    author: "Project Team",
-  },
-  {
-    id: "news-03",
-    title: "Featured in Architecture Today Magazine",
-    excerpt:
-      "Studio Architecten spotlight in leading architecture publication.",
-    content:
-      "We're honored to be featured in Architecture Today Magazine, where our latest projects and design philosophy are discussed with industry experts.",
-    category: "Press",
-    date: "2024-11-05",
-    image: "/placeholder.svg?key=mag01",
-    featured: false,
-    author: "Editorial",
-  },
-  {
-    id: "news-04",
-    title: "Sustainability Initiative: Carbon-Neutral Buildings",
-    excerpt:
-      "Announcing our commitment to carbon-neutral design practices by 2025.",
-    content:
-      "Studio Architecten launches an ambitious sustainability initiative aimed at achieving carbon-neutral design practices across all projects by 2025. This commitment reflects our responsibility to the environment and future generations.",
-    category: "Sustainability",
-    date: "2024-10-30",
-    image: "/placeholder.svg?key=sust01",
-    featured: false,
-    author: "CEO",
-  },
-  {
-    id: "news-05",
-    title: "New Office Opening in Rotterdam",
-    excerpt: "Studio Architecten expands with new regional office.",
-    content:
-      "We're excited to announce the opening of our new regional office in Rotterdam. This expansion allows us to better serve our clients in the southern Netherlands.",
-    category: "Company",
-    date: "2024-10-20",
-    image: "/placeholder.svg?key=office01",
-    featured: false,
-    author: "Management",
-  },
-  {
-    id: "news-06",
-    title: "Collaboration with International Design Leaders",
-    excerpt:
-      "Strategic partnership announced with leading European architecture firms.",
-    content:
-      "We're thrilled to announce a strategic collaboration with leading European architecture firms. This partnership will enhance our capabilities and expand our reach across Europe.",
-    category: "Partnerships",
-    date: "2024-10-10",
-    image: "/placeholder.svg?key=partner01",
-    featured: false,
-    author: "Business Development",
-  },
-];
-
-const categories = [
-  "Alle Nieuws",
-  "Awards",
-  "Projects",
-  "Press",
-  "Sustainability",
-  "Company",
-  "Partnerships",
-];
+import { NewsArticle } from "@/lib/strapi";
 
 export default function NewsGrid() {
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [activeCategory, setActiveCategory] = useState("Alle Nieuws");
+  const [categories, setCategories] = useState<string[]>(["Alle Nieuws"]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNews() {
+      try {
+        const response = await fetch("/api/news");
+        const data = await response.json();
+        setArticles(data);
+
+        // Extract unique categories from articles
+        const uniqueCategories = new Set<string>();
+        data.forEach((article: NewsArticle) => {
+          article.categories.forEach((cat) => uniqueCategories.add(cat));
+        });
+
+        setCategories(["Alle Nieuws", ...Array.from(uniqueCategories).sort()]);
+      } catch (error) {
+        console.error("Error loading news articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadNews();
+  }, []);
 
   const filteredNews =
     activeCategory === "Alle Nieuws"
-      ? newsArticles
-      : newsArticles.filter((article) => article.category === activeCategory);
+      ? articles
+      : articles.filter((article) =>
+          article.categories.includes(activeCategory),
+        );
 
-  const featuredArticles = filteredNews.filter((article) => article.featured);
-  const regularArticles = filteredNews.filter((article) => !article.featured);
+  // Show up to 2 featured articles, rest below
+  const featuredArticles = filteredNews.slice(0, 2);
+  const restArticles = filteredNews.slice(2);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -124,6 +53,22 @@ export default function NewsGrid() {
       day: "numeric",
     });
   };
+
+  if (loading) {
+    return (
+      <section className="pt-36 md:pt-52 pb-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight mb-8 md:mb-12 text-center md:text-left">
+            Blijf op de hoogte
+          </h1>
+          <div className="mb-12 md:mb-16 flex md:block justify-center">
+            <div className="w-12 h-px bg-primary/30"></div>
+          </div>
+          <p className="text-center text-muted-foreground">Laden...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="pt-36 md:pt-52 pb-24 px-6">
@@ -161,41 +106,50 @@ export default function NewsGrid() {
           ))}
         </div>
 
-        {/* Featured Articles */}
+        {/* Featured Articles Grid (2 columns) */}
         {featuredArticles.length > 0 && (
           <div className="mb-16">
             <h2 className="text-2xl font-light tracking-tight mb-8">
               Uitgelicht
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-16">
               {featuredArticles.map((article) => (
                 <Link
-                  key={article.id}
-                  href={`/nieuws/${article.id}`}
+                  key={article.documentId}
+                  href={`/nieuws/${article.documentId}`}
                   className="group cursor-pointer"
                 >
-                  <div className="relative h-96 overflow-hidden bg-muted mb-4">
-                    <img
-                      src={article.image || "/placeholder.svg"}
-                      alt={article.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                    />
+                  {/* Image with consistent aspect ratio */}
+                  <div className="relative w-full aspect-video bg-muted mb-4 rounded-sm overflow-hidden">
+                    {article.thumbnail && (
+                      <img
+                        src={article.thumbnail}
+                        alt={article.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      />
+                    )}
                   </div>
+                  {/* Content */}
                   <div>
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="text-xs font-light tracking-widest text-muted-foreground">
-                        {article.category}
-                      </span>
+                    <div className="flex items-center gap-4 mb-3 flex-wrap">
+                      {article.categories.map((cat, idx) => (
+                        <span
+                          key={`${cat}-${idx}`}
+                          className="text-xs font-light tracking-widest text-muted-foreground"
+                        >
+                          {cat}
+                        </span>
+                      ))}
                       <span className="text-xs font-light text-muted-foreground">
                         {formatDate(article.date)}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-light tracking-tight group-hover:opacity-60 transition mb-2">
+                    <h3 className="text-xl font-light tracking-tight group-hover:opacity-60 transition mb-2 line-clamp-2">
                       {article.title}
                     </h3>
-                    <p className="text-sm font-light text-muted-foreground">
-                      {article.excerpt}
+                    <p className="text-sm font-light text-muted-foreground line-clamp-2">
+                      {article.description.substring(0, 120)}...
                     </p>
                   </div>
                 </Link>
@@ -210,25 +164,30 @@ export default function NewsGrid() {
           </div>
         )}
 
-        {/* Regular Articles */}
-        {regularArticles.length > 0 && (
+        {/* Rest of Articles */}
+        {restArticles.length > 0 && (
           <div>
             <h2 className="text-2xl font-light tracking-tight mb-8">
               Meer Nieuws
             </h2>
             <div className="space-y-12">
-              {regularArticles.map((article) => (
+              {restArticles.map((article) => (
                 <Link
-                  key={article.id}
-                  href={`/nieuws/${article.id}`}
+                  key={article.documentId}
+                  href={`/nieuws/${article.documentId}`}
                   className="group cursor-pointer block"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pb-8 border-b border-border hover:opacity-60 transition">
                     <div className="md:col-span-2">
-                      <div className="flex items-center gap-4 mb-3">
-                        <span className="text-xs font-light tracking-widest text-muted-foreground">
-                          {article.category}
-                        </span>
+                      <div className="flex items-center gap-4 mb-3 flex-wrap">
+                        {article.categories.map((cat, idx) => (
+                          <span
+                            key={`${cat}-${idx}`}
+                            className="text-xs font-light tracking-widest text-muted-foreground"
+                          >
+                            {cat}
+                          </span>
+                        ))}
                         <span className="text-xs font-light text-muted-foreground">
                           {formatDate(article.date)}
                         </span>
@@ -237,20 +196,18 @@ export default function NewsGrid() {
                         {article.title}
                       </h3>
                       <p className="text-base font-light text-foreground/70 leading-relaxed mb-4">
-                        {article.excerpt}
+                        {article.description.substring(0, 200)}...
                       </p>
-                      <div className="flex items-center gap-2 text-sm font-light text-muted-foreground">
-                        <span>By {article.author}</span>
-                        <span>→</span>
-                      </div>
                     </div>
                     <div className="relative h-48 bg-muted overflow-hidden">
-                      <img
-                        src={article.image || "/placeholder.svg"}
-                        alt={article.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
-                      />
+                      {article.thumbnail && (
+                        <img
+                          src={article.thumbnail}
+                          alt={article.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
                   </div>
                 </Link>

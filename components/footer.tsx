@@ -15,8 +15,8 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="w-12 h-px bg-primary-foreground/30 mb-4" />
-            <h4 className="text-lg font-light tracking-widest mb-6">
-              PAUL KINDT
+            <h4 className="text-lg font-light tracking-widest mb-6 uppercase">
+              Architectenbureau PAUL KINDT
             </h4>
             <p className="font-light opacity-70 text-sm leading-relaxed">
               Architectenbureau gespecialiseerd in residentiële architectuur en

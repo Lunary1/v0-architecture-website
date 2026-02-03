@@ -185,7 +185,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
       return (
         <pre
           key={index}
-          className="bg-muted p-4 rounded-lg overflow-x-auto mb-6 text-sm font-mono"
+          className="bg-muted p-4 rounded-sm overflow-x-auto mb-6 text-sm font-mono"
         >
           <code className="text-foreground/80">{children}</code>
         </pre>
@@ -193,7 +193,7 @@ function renderBlock(block: any, index: number): React.ReactNode {
 
     case "image":
       return (
-        <div key={index} className="my-8 rounded-lg overflow-hidden">
+        <div key={index} className="my-8 rounded-sm overflow-hidden">
           <img
             src={block.image.url}
             alt={block.image.alternativeText || "Image"}
