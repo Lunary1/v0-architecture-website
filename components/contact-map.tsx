@@ -4,10 +4,9 @@ import { MapPin } from "lucide-react";
 import { contactInfo } from "@/lib/data";
 
 export default function ContactMap() {
-  // Google Maps embed URL for Fremisstraat 1A, Maarkedal, Belgium
-  // Coordinates: 50.7089, 3.8867
+  // Google Maps embed URL for Architectenbureau Paul Kindt
   const mapsUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2517.8473456!2d3.8867!3d50.7089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c2e8f5c5c5c5c5%3A0x5c5f1c1c1c1c1c1c!2sFremisstraat%201A%2C%209680%20Maarkedal!5e0!3m2!1sen!2sbe!4v1234567890";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.4368068322556!2d3.636234177713922!3d50.823072571665705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c30d10d9ddc1c9%3A0xe7d68d7c15c22731!2sArchitectenbureau%20Paul%20Kindt!5e0!3m2!1snl!2sbe!4v1770161949887!5m2!1snl!2sbe";
 
   return (
     <section className="relative h-[500px] bg-muted border-t border-border">

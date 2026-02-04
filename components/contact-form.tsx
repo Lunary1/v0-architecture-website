@@ -131,11 +131,16 @@ export default function ContactForm() {
 
             {/* Name */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-light text-muted-foreground mb-2"
+              >
                 Naam *
               </label>
               <Input
+                id="name"
                 type="text"
+                autoComplete="name"
                 {...register("name")}
                 className={`w-full bg-background border ${
                   errors.name ? "border-red-500" : "border-input"
@@ -151,11 +156,16 @@ export default function ContactForm() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-light text-muted-foreground mb-2"
+              >
                 E-mailadres *
               </label>
               <Input
+                id="email"
                 type="email"
+                autoComplete="email"
                 {...register("email")}
                 className={`w-full bg-background border ${
                   errors.email ? "border-red-500" : "border-input"
@@ -173,11 +183,16 @@ export default function ContactForm() {
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               {/* Phone */}
               <div>
-                <label className="block text-sm font-light text-muted-foreground mb-2">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-light text-muted-foreground mb-2"
+                >
                   Telefoon
                 </label>
                 <Input
+                  id="phone"
                   type="tel"
+                  autoComplete="tel"
                   {...register("phone")}
                   className="w-full bg-background border border-input rounded-sm px-4 py-3 font-light focus:outline-none focus:border-ring transition"
                   placeholder="+32 470 12 34 56"
@@ -187,10 +202,15 @@ export default function ContactForm() {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-light text-muted-foreground mb-2">
+              <label
+                htmlFor="message"
+                className="block text-sm font-light text-muted-foreground mb-2"
+              >
                 Bericht *
               </label>
               <Textarea
+                id="message"
+                autoComplete="off"
                 {...register("message")}
                 className={`w-full bg-background border ${
                   errors.message ? "border-red-500" : "border-input"

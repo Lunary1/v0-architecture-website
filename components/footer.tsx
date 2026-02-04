@@ -29,20 +29,20 @@ export default function Footer() {
             <h4 className="text-sm font-light tracking-widest opacity-50 mb-6">
               PAGINA'S
             </h4>
-            <div className="space-y-3">
-              <Link href="/" className="footer-link">
+            <div className="flex flex-col space-y-3">
+              <Link href="/" className="footer-link w-fit">
                 Home
               </Link>
-              <Link href="/projecten" className="footer-link">
+              <Link href="/projecten" className="footer-link w-fit">
                 Projecten
               </Link>
-              <Link href="/over" className="footer-link">
+              <Link href="/over" className="footer-link w-fit">
                 Over Ons
               </Link>
-              <Link href="/nieuws" className="footer-link">
+              <Link href="/nieuws" className="footer-link w-fit">
                 Nieuws
               </Link>
-              <Link href="/contact" className="footer-link">
+              <Link href="/contact" className="footer-link w-fit">
                 Contact
               </Link>
             </div>
@@ -115,7 +115,7 @@ export default function Footer() {
               reserved.
             </p>
             <div className="flex gap-6">
-              <Link href="/privacybeleid" className="footer-link">
+              <Link href="/privacybeleid" className="footer-link w-fit">
                 Privacybeleid
               </Link>
             </div>
